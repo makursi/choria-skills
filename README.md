@@ -5,7 +5,8 @@ A Claude Code skill that transforms scattered **Computer Science & Technology** 
 ## Features
 
 - **Knowledge Expansion**: Automatically identifies knowledge gaps (unexplained terms, missing derivations, assumed background) and fills them to academic-level completeness
-- **Knowledge Structuring**: Organizes fragmented concepts into a hierarchical framework with difficulty tags and prerequisite chains, including Mermaid concept relationship diagrams
+- **Knowledge Structuring**: Organizes fragmented concepts into a hierarchical framework with prerequisite-ordered chapters and Mermaid concept relationship diagrams
+- **Golden Circle (Why → How → What)**: Every expanded concept follows motivation → mechanism → definition order for logical comprehension
 - **Bilingual CS Terminology**: English CS terms preserved with Chinese annotations on first use; code and formulas remain English-only
 
 ## Domain Scope
@@ -20,7 +21,7 @@ A Claude Code skill that transforms scattered **Computer Science & Technology** 
 | Software | Programming Language Theory, Software Engineering, Design Patterns, Software Architecture |
 | Security & Applications | Cryptography, Network Security, Computer Graphics, HCI |
 
-Non-CS notes are rejected in Phase 1 by domain gating.
+Non-CS notes are rejected in Phase 1 by domain gating. Math/CS boundary domains (graph theory, information theory, probability theory) trigger a notice to confirm the CS-centric direction.
 
 ## Installation
 
@@ -34,36 +35,41 @@ Restart Claude Code or refresh. No build step or dependencies required.
 
 1. Prepare your `.md` classroom note files
 2. In Claude Code, say: **"refine my CS notes"** (or reference specific file paths)
-3. The skill auto-loads and proceeds through 5 phases:
+3. The skill auto-loads and proceeds through 5 phases with minimal confirmation prompts:
 
 | Phase | Name | Output |
 |-------|------|--------|
 | 1 | Ingest & Parse | Concept inventory, domain verification |
 | 2 | Analyze & Identify Gaps | Gap analysis table (terminology audit + depth assessment) |
-| 3 | Expand Knowledge | Academic-level expansions (derivations, pseudocode, complexity analysis, comparisons) |
-| 4 | Structure Systematically | Hierarchical outline + Mermaid concept map + difficulty tags |
+| 3 | Expand Knowledge | Academic-level expansions in Why → How → What format (silent) |
+| 4 | Structure Systematically | Hierarchical outline + Mermaid concept map |
 | 5 | Generate Knowledge Base | Complete `.md` knowledge base document |
 
 The output is saved to the source directory as `[topic-slug]-knowledge-base.md`.
 
+## Confirmation Behavior
+
+- Gaps <= 8: confirms topic (Phase 1) and final outline (Phase 4) — 2 prompts
+- Gaps > 8: adds gap priority confirmation (Phase 2) — 3 prompts
+- User says "auto-proceed": only final outline shown for approval — 1 prompt
+
 ## Output Document Structure
 
-Generated knowledge bases contain 8 sections:
+Generated knowledge bases contain 7 sections:
 
 1. Metadata header
 2. Hierarchical table of contents
 3. Mermaid concept relationship diagram
-4. Main chapters (code blocks, LaTeX formulas, pseudocode, comparison tables)
+4. Main chapters (Why/How/What structure, code blocks, LaTeX formulas, pseudocode, comparison tables)
 5. CS glossary (English → 中文 → definition)
 6. Cross-reference index
 7. Classic problems & exercises
-8. Further reading (textbooks, papers, RFCs)
 
 ## File Structure
 
 ```
 notes-refiner/
-├── SKILL.md                    # Skill entry point (≤100 lines)
+├── SKILL.md                    # Skill entry point (<=100 lines)
 ├── EXAMPLES.md                 # CS domain usage examples
 ├── CLAUDE.md                   # Claude Code collaboration guide
 ├── README.md                   # This file

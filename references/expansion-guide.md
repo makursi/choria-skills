@@ -79,11 +79,60 @@ how to identify and classify knowledge gaps, and the methodology for filling the
 
 ---
 
-## Academic Depth Standards
+## Why → How → What Structure (Golden Circle)
 
-### What "Academic Depth" Means per CS Subfield
+Every expanded concept in Phase 3 must follow this three-section structure:
 
-#### Algorithms & Data Structures
+```markdown
+### N.m Concept Name
+
+**Why** — What problem does it solve? Who developed it and when?
+        What real-world need motivated it?
+
+**How** — What is the mechanism, derivation, or design rationale?
+        How does it work? What is the proof sketch?
+        What were the key design decisions or trade-offs?
+
+**What** — Formal definition, pseudocode, complexity analysis,
+         code examples, comparison with alternatives.
+```
+
+The three sections are always in Why → How → What order. Not all concepts fill
+every section equally — use judgment:
+
+| Concept Type | Why emphasis | How emphasis | What emphasis |
+|-------------|-------------|-------------|--------------|
+| Algorithm (Dijkstra) | Routing/map navigation needs | Greedy strategy, priority queue, correctness | Pseudocode, complexity, code |
+| Protocol (TCP) | Reliability problem in IP networks | 3-way handshake, seq/ack, congestion control | Header format, state machine, comparison |
+| Theorem (CAP) | Distributed system trade-offs | Proof by contradiction | Formal statement, implications |
+| Language feature (Python GIL) | Simplifying CPython's memory management | How the GIL is acquired/released | Code examples, GIL workarounds |
+| Data structure (B+ Tree) | Disk I/O bottleneck | Node splitting, fill factor | Operations, complexity, DBMS usage |
+
+---
+
+## General Expansion Checklist (Apply Where Applicable)
+
+The following list is a flexible prompt. Apply only the dimensions that fit the
+concept. Do NOT force all dimensions onto every concept.
+
+- Definition and first principles — start from fundamentals
+- Mathematical derivation — show steps, not just results (LaTeX)
+- Algorithm pseudocode — structured, line-numbered
+- Time/space complexity — with derivation, best/average/worst case
+- Concrete code example — minimal but complete, with language tag
+- Historical context — who, when, what problem motivated it
+- Comparison with alternatives — table format if >2 alternatives
+- Cross-references — link to dependent and related concepts
+
+---
+
+## Subfield-Specific Depth Standards (HARD REQUIREMENTS)
+
+These are the **non-negotiable** requirements per CS subfield. Every concept
+within a subfield MUST meet these standards. The general checklist (above) is
+advisory — these are mandatory.
+
+### Algorithms & Data Structures
 
 A concept has academic depth when it covers:
 - [ ] Formal definition with mathematical notation
@@ -95,7 +144,7 @@ A concept has academic depth when it covers:
 - [ ] Implementation considerations (cache, concurrency, real-world constants)
 - [ ] At least one concrete example walked through step-by-step
 
-#### Operating Systems
+### Operating Systems
 
 A concept has academic depth when it covers:
 - [ ] The problem the OS mechanism solves (why user-space can't do it)
@@ -106,7 +155,7 @@ A concept has academic depth when it covers:
 - [ ] How major OSes implement it (Linux vs Windows vs macOS vs FreeBSD)
 - [ ] Historical evolution (e.g., from CTSS to CFS to EEVDF in Linux scheduling)
 
-#### Computer Networks
+### Computer Networks
 
 A concept has academic depth when it covers:
 - [ ] Where it sits in the OSI/TCP-IP stack
@@ -117,7 +166,7 @@ A concept has academic depth when it covers:
 - [ ] Relevant RFC(s) cited
 - [ ] Comparison with alternative protocols at the same layer
 
-#### Databases
+### Databases
 
 A concept has academic depth when it covers:
 - [ ] Formal definition (relational algebra, normal form, etc.)
@@ -126,7 +175,7 @@ A concept has academic depth when it covers:
 - [ ] Performance characteristics (I/O complexity, locking behavior)
 - [ ] How major DBMSs implement it (PostgreSQL, MySQL/InnoDB, SQLite)
 
-#### AI / Machine Learning
+### AI / Machine Learning
 
 A concept has academic depth when it covers:
 - [ ] Mathematical formulation (loss function, optimization objective)
@@ -138,7 +187,7 @@ A concept has academic depth when it covers:
 - [ ] Relationship to other models/algorithms
 - [ ] Key papers that introduced or advanced the concept
 
-#### Programming Languages & Compilers
+### Programming Languages & Compilers
 
 A concept has academic depth when it covers:
 - [ ] Formal grammar/syntax (BNF or similar notation)
@@ -147,6 +196,25 @@ A concept has academic depth when it covers:
 - [ ] Compilation/runtime behavior (what the compiler/interpreter actually does)
 - [ ] Code examples showing both common and edge-case usage
 - [ ] Comparison with analogous features in other languages
+
+### Distributed Systems
+
+A concept has academic depth when it covers:
+- [ ] Consistency model definition
+- [ ] Failure model assumptions
+- [ ] CAP theorem trade-off analysis
+- [ ] Network partition behavior
+- [ ] Consensus protocol details (if applicable)
+- [ ] Real-world system examples
+
+### Cryptography
+
+A concept has academic depth when it covers:
+- [ ] Security model and assumptions
+- [ ] Attack model and threat analysis
+- [ ] Key size and security parameter justification
+- [ ] Side-channel considerations
+- [ ] Implementation pitfalls and warnings
 
 ---
 
@@ -207,6 +275,7 @@ A concept has academic depth when it covers:
 4. Code examples are minimal but complete (can run with minimal modification).
 5. Historical claims are attributed to specific people, papers, and years.
 6. The expansion connects to at least one other concept in the knowledge base.
+7. The Why → How → What flow is logical — motivation before mechanism before definition.
 
 ### An expansion is INSUFFICIENT when:
 
@@ -216,3 +285,4 @@ A concept has academic depth when it covers:
 4. It includes code that is obviously broken.
 5. It claims "this is the best approach" without comparison or justification.
 6. It cites a source that doesn't actually say what's claimed.
+7. It jumps directly to What (definition) without Why (motivation).

@@ -26,10 +26,22 @@ Scan the content of ALL files for CS domain markers:
 - Architecture diagrams, protocol flows, state machines
 - References to CS textbooks, papers, RFCs, or documentation
 
+**Math/CS boundary domains** (content is mathematical but has CS overlap):
+- Graph theory, information theory, probability theory, group theory,
+  mathematical logic, combinatorics, number theory, linear algebra
+- Do NOT reject. Present this notice and wait for user confirmation:
+
+```
+检测到您的笔记涉及 [领域名]，该领域横跨数学和计算机科学。
+本 Skill 将从算法与数据结构角度进行扩展（含伪代码、复杂度分析）。
+如需纯数学角度（定理证明、抽象代数结构），建议不使用此 Skill。
+是否继续？
+```
+
 **Non-CS signals** (if ALL content falls here, reject):
 - Biology, chemistry, physics, medicine, history, literature, law, economics,
   etc. with NO CS terminology or code
-- Pure mathematics with no CS application context
+- Pure mathematics with no CS application context AND not in a boundary domain
 
 **Rejection message** if not CS:
 ```
@@ -67,7 +79,7 @@ Present to user:
 - Files processed: N files, total M lines
 - Concept inventory size: K unique terms detected
 - Detected CS subfield(s): [list]
-- Ask: "是否可以进入 Phase 2 分析阶段？" (or auto-proceed)
+- Ask: "是否可以进入 Phase 2 分析阶段？" (skip if user opted to auto-proceed)
 
 ### Edge Cases — Phase 1
 
@@ -145,7 +157,12 @@ Priority = Criticality × 2 + Depth deficit + User emphasis
 
 ### Step 2.6: Present Gap Analysis
 
-Show the user a table:
+**Decision rule for whether to show the table**:
+- If gap count > 8: show the table and ask for confirmation
+- If gap count <= 8: summarize orally, proceed silently to Phase 3
+- If user opted to auto-proceed: skip confirmation regardless
+
+When showing the table:
 ```
 | # | Concept | Status | Depth | Priority | Suggested Expansion |
 |---|---------|--------|-------|----------|---------------------|
@@ -160,34 +177,60 @@ Ask: "请确认以上缺口分析。是否需要调整优先级或跳过某些�
 |-----------|--------|
 | **>50 concepts detected** | Suggest scoping: "检测到超过50个概念。建议聚焦于一个子领域。当前检测到的子领域包括：[A, B, C]。请选择聚焦范围。" |
 | **All concepts at L4** | "笔记已达到较高深度，缺口较少。将主要进行结构化整理和补充性扩展。" |
-| **Contradictory definitions across files** | Flag in the table: "⚠ 文件A和文件B对X的定义存在差异" |
+| **Contradictory definitions across files** | Flag in the table: "[!] 文件A和文件B对X的定义存在差异" |
 | **Many orphaned concepts** | Ask: "以下概念在笔记中孤立提及，是否需要保留并扩展，还是可以移除？[list]" |
 
 ---
 
-## Phase 3 — Expand Knowledge
+## Phase 3 — Expand Knowledge (SILENT — no user prompts)
 
-### Step 3.1: Expansion Principles
+Phase 3 runs silently. The user reviews its output implicitly when the Phase 4
+structure outline is presented.
 
-For each gap (process one at a time, high priority first), expand to L4 academic
-depth. Every expanded concept must include:
+**Scope constraint**: Only expand concepts from the source note inventory. Do
+NOT generate new topic branches, "you might also want to know" tangents, or
+concepts not mentioned in the original notes. The goal is to fill gaps in what
+the student already has — not to write a textbook chapter on the broader subject.
 
-1. **Definition & First Principles** — What is it? What problem does it solve?
-   Start from the most fundamental level the target audience needs.
-2. **Derivation** (if applicable) — Mathematical derivation with LaTeX, showing
-   intermediate steps, not just the final result.
-3. **Algorithm / Pseudocode** (if applicable) — Structured pseudocode using
-   standard conventions (see output-schema.md).
-4. **Complexity Analysis** (if applicable) — Time and space complexity with
-   derivation. Best/average/worst case.
-5. **Concrete Code Example** (if applicable) — Working code in the most relevant
-   language, with comments.
-6. **Historical Context** — Who developed it? When? What problem motivated it?
-7. **Comparison with Alternatives** — How does it differ from related approaches?
-   A comparison table when >2 alternatives exist.
-8. **Cross-References** — Link to dependent and related concepts.
+### Step 3.1: Why → How → What Structure
 
-### Step 3.2: Bilingual Terminology Rules
+Every expanded concept must follow this three-section structure in order:
+
+```
+### N.m Concept Name
+
+**Why** — What problem does it solve? Who developed it and when?
+        What real-world need motivated it? Why does it matter?
+
+**How** — What is the mechanism, derivation, or design rationale?
+        How does it work step by step? What is the proof sketch?
+
+**What** — Formal definition, pseudocode, complexity analysis,
+         code examples, comparison with alternatives.
+```
+
+Not every concept fills all three equally:
+- A protocol concept may have more "How" (state machine) and less code
+- A theorem may have more "How" (proof) and no code examples at all
+- A language feature may have more "What" (code) and briefer "Why"
+
+### Step 3.2: Expansion Dimensions (Apply Where Applicable)
+
+The following dimensions are a general checklist. Apply only those that fit the
+specific concept. The **hard requirements** are the subfield-specific depth
+standards defined in the Expansion Guide — those are non-negotiable.
+
+General expansion prompts:
+- Definition and first principles
+- Mathematical derivation (LaTeX, show steps)
+- Algorithm pseudocode with line numbers
+- Time/space complexity with derivation
+- Concrete code example with language tag
+- Historical context (who, when, what problem)
+- Comparison with related approaches (table format if >2)
+- Cross-references to dependent concepts
+
+### Step 3.3: Bilingual Terminology Rules
 
 - **First use**: English term with 中文 in parentheses.
   Example: "反向传播 (Backpropagation) 是训练神经网络的核心算法..."
@@ -196,7 +239,7 @@ depth. Every expanded concept must include:
 - **Glossary entry**: Every English CS term must appear in the final glossary
   with its 中文 equivalent and definition.
 
-### Step 3.3: Research and Citation
+### Step 3.4: Research and Citation
 
 Use WebSearch and WebFetch to research concepts when the source notes are
 insufficient. Cite sources using these formats:
@@ -210,16 +253,17 @@ insufficient. Cite sources using these formats:
 Never fabricate citations. If a source cannot be found, write:
 `[待补充引用 / Citation TBD]`.
 
-### Step 3.4: Quality Checks per Expansion
+### Step 3.5: Quality Checks per Expansion
 
 For each expanded concept, verify:
 - [ ] Definition is self-contained (no circular references)
 - [ ] All symbols in LaTeX formulas are defined
 - [ ] Pseudocode is syntactically clear and consistent
 - [ ] Complexity analysis includes derivation steps, not just final Big-O
-- [ ] Code example compiles/runs (best-effort — flag if untested)
+- [ ] Code example is syntactically plausible (best-effort — flag if untested)
 - [ ] Historical context is factually accurate (cross-check if uncertain)
 - [ ] English terms follow the first-use parenthesis rule
+- [ ] Why → How → What order is maintained
 
 ### Edge Cases — Phase 3
 
@@ -238,43 +282,32 @@ For each expanded concept, verify:
 
 ### Step 4.1: Build Topic Tree
 
-Organize all concepts into a nested hierarchy:
+Organize concepts from the source inventory into a nested hierarchy. Only include
+concepts that appear in the source notes — do not add synthetic subtopics.
 
 ```
 Root (Main CS Topic)
-├── 1. 子领域/大主题 A
-│   ├── 1.1 概念 X  [入门]
-│   │   ├── 1.1.1 定义与原理
-│   │   ├── 1.1.2 推导/算法
-│   │   └── 1.1.3 应用与示例
-│   ├── 1.2 概念 Y  [进阶, 前置: 1.1]
-│   └── 1.3 概念 Z  [高级, 前置: 1.1, 1.2]
-├── 2. 子领域/大主题 B
+├── 1. Subfield / Major Topic A
+│   ├── 1.1 Concept X
+│   │   ├── 1.1.1 Why — motivation and background
+│   │   ├── 1.1.2 How — mechanism and derivation
+│   │   └── 1.1.3 What — definition and application
+│   ├── 1.2 Concept Y (prerequisite: 1.1)
+│   └── 1.3 Concept Z (prerequisite: 1.1, 1.2)
+├── 2. Subfield / Major Topic B
 │   └── ...
-└── N. 子领域/大主题 N
+└── N. Subfield / Major Topic N
 ```
 
 ### Step 4.2: Sequence for Learning
 
 Reorder concepts so that:
 - Prerequisites always come before dependents
-- Difficulty progresses from 入门 → 进阶 → 高级 within each subtree
 - Foundational concepts (definitions, principles) come before applications
 - If a circular dependency exists (A needs B, B needs A), flag it explicitly and
   suggest reading order
 
-### Step 4.3: Tag Each Section
-
-Every section (H2 and H3) must be tagged:
-
-- **Difficulty**: `入门 (Beginner)` / `进阶 (Intermediate)` / `高级 (Advanced)`
-  - 入门: Assumes only basic CS literacy (programming 101, basic math)
-  - 进阶: Assumes undergraduate-level CS knowledge
-  - 高级: Assumes graduate-level or specialized knowledge
-- **Prerequisites**: Section numbers that should be read first, or "无" if none
-- **Type**: One of: `定义` / `推导` / `算法` / `应用` / `比较` / `历史` / `系统设计`
-
-### Step 4.4: Generate Concept Map
+### Step 4.3: Generate Concept Map
 
 Create a Mermaid diagram showing the top-level concept relationships. Choose the
 diagram type based on content:
@@ -287,19 +320,19 @@ diagram type based on content:
 | State machine | `stateDiagram-v2` | Process states, protocol states |
 | System architecture | `flowchart LR` | OS layers, network stack |
 
-### Step 4.5: Generate Table of Contents
+### Step 4.4: Generate Table of Contents
 
 Numbered, with indentation reflecting the tree. Use `1.` `1.1` `1.1.1` style.
 
-### Step 4.6: Present Structure for Approval
+### Step 4.5: Present Structure for Approval
 
-Show the user the complete outline (TOC + tags + concept map) before generating
-the final document. Ask:
+ALWAYS show the complete outline (TOC + tags + concept map) before generating
+the final document. This is the primary confirmation gate.
+
 ```
 以上是知识库的结构大纲。请确认：
 1. 层级结构是否合理？
-2. 难度标注是否准确？
-3. 是否需要增加、删除或移动某些章节？
+2. 是否需要增加、删除或移动某些章节？
 确认后进入 Phase 5 生成最终文档。
 ```
 
@@ -321,14 +354,13 @@ the final document. Ask:
 Follow the exact schema in [output-schema.md](output-schema.md). Build sections
 in order:
 
-1. Metadata header
+1. Metadata header (date + source files only)
 2. Table of Contents
 3. Concept Map (Mermaid)
-4. Main Chapters (with all tags, code, formulas, tables)
+4. Main Chapters (Why/How/What structure, code, formulas, tables)
 5. CS Glossary
 6. Cross-Reference Index
-7. Classic Problems & Exercises
-8. Further Reading
+7. Classic Problems & Exercises (optional — only if notes show exam orientation)
 
 ### Step 5.2: Formatting Consistency
 
@@ -344,14 +376,14 @@ in order:
 Before finalizing, verify ALL of the following:
 
 - [ ] Every English CS term in the main chapters appears in the Glossary
-- [ ] Every section (H2, H3) has a difficulty tag
 - [ ] All cross-reference links point to valid sections
 - [ ] No orphaned concepts remain (every concept connects to at least one other)
 - [ ] LaTeX formulas: all symbols defined, correct delimiters (`$$` / `$`)
 - [ ] Mermaid diagrams: valid syntax, renders correctly
 - [ ] Code blocks: language tags present, reasonable indentation
 - [ ] Heading hierarchy: no skipped levels (H2 → H3, never H2 → H4)
-- [ ] No `[待补充]` markers left without explanation
+- [ ] Concepts follow Why → How → What structure
+- [ ] Section 7 (Classic Problems) is present only if source notes show exam orientation
 - [ ] File naming: `[topic-slug]-knowledge-base.md` in the source directory
 
 ### Step 5.4: Write Output

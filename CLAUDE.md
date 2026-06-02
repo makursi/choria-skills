@@ -8,10 +8,10 @@ This is a Claude Code skill — a domain-specific instruction set loaded by Clau
 
 ## Architecture
 
-Skills use **progressive disclosure**: SKILL.md is the lightweight entry point (≤100 lines) that the agent reads to decide whether to load the skill. Detailed instructions live in `references/` and are read on-demand during execution.
+Skills use **progressive disclosure**: SKILL.md is the lightweight entry point (<=100 lines) that the agent reads to decide whether to load the skill. Detailed instructions live in `references/` and are read on-demand during execution.
 
 ```
-SKILL.md                      # Entry point: frontmatter + workflow overview (94 lines)
+SKILL.md                      # Entry point: frontmatter + workflow overview (~95 lines)
 references/
   workflow.md                 # Phase-by-phase execution guide with checklists
   output-schema.md            # Exact template for generated knowledge base documents
@@ -39,4 +39,12 @@ After symlinking, Claude Code picks up the skill on next launch (or refresh). No
 
 ## Scope
 
-This skill serves **only** Computer Science & Technology topics (algorithms, data structures, OS, networks, databases, compilers, architecture, AI/ML, PL, software engineering, distributed systems, cryptography). Non-CS notes are rejected in Phase 1 with an explanation.
+This skill serves **only** Computer Science & Technology topics (algorithms, data structures, OS, networks, databases, compilers, architecture, AI/ML, PL, software engineering, distributed systems, cryptography). Non-CS notes are rejected in Phase 1 with an explanation. Math/CS boundary domains (graph theory, information theory, etc.) trigger a notice to confirm the CS-centric expansion direction.
+
+## Key Design Decisions
+
+- **Flexible confirmation gates**: <=8 gaps → 2 prompts (topic + outline); >8 gaps → 3 prompts (topic + priorities + outline). User can say "auto-proceed" to skip all but the final outline.
+- **Output**: 7-section document. Former section 8 (Further Reading) is removed.
+- **Golden Circle structure**: Every expanded concept follows Why → How → What order.
+- **Expansion dimensions**: "Apply where applicable" — subfield-specific depth standards are the hard requirements.
+- **No emoji**: Clean academic style throughout.

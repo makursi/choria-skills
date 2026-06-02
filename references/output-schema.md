@@ -1,4 +1,4 @@
-# Output Schema — CS Knowledge Base Document Template
+# Output Schema -- CS Knowledge Base Document Template
 
 This document defines the exact structure, formatting rules, and conventions for
 the generated knowledge base Markdown file.
@@ -8,13 +8,10 @@ the generated knowledge base Markdown file.
 ## Document Template
 
 ```markdown
-# [Topic Name] — 知识库 (Knowledge Base)
+# [Topic Name] -- Knowledge Base (知识库)
 
 > **生成日期**: YYYY-MM-DD
-> **CS 子领域**: [子领域标签, 逗号分隔]
-> **难度范围**: [入门] ~ [高级]
 > **源文件**: [file1.md, file2.md, ...]
-> **生成工具**: Notes Refiner Skill (Claude Code)
 
 ---
 
@@ -52,31 +49,28 @@ the generated knowledge base Markdown file.
 
 ---
 
-## 经典问题与练习 (Classic Problems & Exercises)
+## 经典问题与练习 (Classic Problems & Exercises) *(optional)*
 
-<!-- Relevant exam/interview problems with hints -->
-
----
-
-## 延伸阅读 (Further Reading)
-
-<!-- Textbooks, papers, RFCs, official docs -->
+<!-- Only include this section if the source notes show exam-oriented intent
+     (e.g., references to past papers, "常考", "面试", "考试" keywords).
+     Otherwise omit the entire section. -->
 ```
 
 ---
 
 ## Section Template (for each H2/H3 chapter)
 
-Every content section should follow this pattern:
+Every content section follows this pattern. No metadata tags -- the content
+itself is self-explanatory.
 
 ```markdown
 ## N. Section Title
 
-> **难度**: 入门 / 进阶 / 高级
-> **前置要求**: [Section X.Y] or 无
-> **类型**: 定义 / 推导 / 算法 / 应用 / 比较 / 历史 / 系统设计
+**Why** -- motivation, historical context, what problem it solves
 
-[Content body — mix of prose, formulas, code, tables, diagrams as appropriate]
+**How** -- mechanism, derivation, design rationale, proof sketch
+
+**What** -- formal definition, pseudocode, complexity, code examples, comparisons
 
 ### N.1 Subsection (if needed)
 
@@ -86,6 +80,10 @@ Every content section should follow this pattern:
 
 [1-3 sentence summary of key takeaways]
 ```
+
+Sections open directly with Why. No difficulty badges, no prerequisite labels,
+no type tags. Concept ordering (prerequisites before dependents) is the only
+mechanism for signaling learning dependencies.
 
 ---
 
@@ -106,22 +104,22 @@ def dijkstra(graph, start):
 
 ### Pseudocode
 
-Use standard algorithmic notation. Indent with 2 spaces. Use ← for assignment:
+Use standard algorithmic notation. Indent with 2 spaces. Use <- for assignment:
 
 ````markdown
 ```pseudocode
 DIJKSTRA(G, s)
- 1  for each vertex v ∈ G.V
- 2      dist[v] ← ∞
- 3      prev[v] ← NIL
- 4  dist[s] ← 0
- 5  Q ← G.V
- 6  while Q ≠ ∅
- 7      u ← EXTRACT-MIN(Q)
- 8      for each v ∈ G.Adj[u]
+ 1  for each vertex v in G.V
+ 2      dist[v] <- INF
+ 3      prev[v] <- NIL
+ 4  dist[s] <- 0
+ 5  Q <- G.V
+ 6  while Q is not empty
+ 7      u <- EXTRACT-MIN(Q)
+ 8      for each v in G.Adj[u]
  9          if dist[v] > dist[u] + w(u, v)
-10              dist[v] ← dist[u] + w(u, v)
-11              prev[v] ← u
+10              dist[v] <- dist[u] + w(u, v)
+11              prev[v] <- u
 12  return dist, prev
 ```
 ````
@@ -202,13 +200,13 @@ Use when comparing related concepts, protocols, or algorithms:
 | **缺点** | ... | ... | ... |
 ```
 
-**Example — TCP vs UDP:**
+**Example -- TCP vs UDP:**
 
 ```markdown
 | 维度 | TCP | UDP |
 |------|-----|-----|
 | **连接模型** | 面向连接 (Connection-oriented) | 无连接 (Connectionless) |
-| **可靠性** | 可靠 — 确认、重传、序号 | 不可靠 — 尽力交付 |
+| **可靠性** | 可靠 -- 确认、重传、序号 | 不可靠 -- 尽力交付 |
 | **顺序保证** | 有序 | 无序 |
 | **拥塞控制** | 有 (AIMD, slow start...) | 无 |
 | **头部开销** | 20-60 bytes | 8 bytes |
@@ -306,37 +304,3 @@ sequenceDiagram
 - English term includes common abbreviation in parentheses: `Abstract Syntax Tree (AST)`
 - 中文术语 is the widely-accepted translation; if multiple exist, use the most common one and note alternatives
 - 定义 is a concise one-sentence definition in Chinese
-
----
-
-## Further Reading Format
-
-```markdown
-## 延伸阅读 (Further Reading)
-
-### 经典教材
-
-| 教材 | 相关章节 | 说明 |
-|------|---------|------|
-| **Introduction to Algorithms** (CLRS), 4th Ed. | Ch. 22-24 | 图算法标准参考，包含严格的复杂度证明 |
-| **Computer Networking: A Top-Down Approach** (Kurose & Ross), 8th Ed. | Ch. 3 | 运输层协议的详细讲解，含 Wireshark 实验 |
-| ... | ... | ... |
-
-### 学术论文
-
-| 论文 | DOI / 链接 | 说明 |
-|------|-----------|------|
-| Dijkstra, E. W. (1959). "A Note on Two Problems in Connexion with Graphs." *Numerische Mathematik*, 1:269-271. | [10.1007/BF01386390](https://doi.org/10.1007/BF01386390) | Dijkstra 最短路径算法原始论文 |
-| ... | ... | ... |
-
-### RFC
-
-| RFC | 标题 | 说明 |
-|-----|------|------|
-| RFC 793 | Transmission Control Protocol | TCP 协议规范 |
-| ... | ... | ... |
-
-### 在线资源
-
-- [资源名称] — [URL] — [一句话描述]
-```
