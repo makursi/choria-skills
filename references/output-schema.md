@@ -49,11 +49,6 @@ the generated knowledge base Markdown file.
 
 ---
 
-## 经典问题与练习 (Classic Problems & Exercises) *(optional)*
-
-<!-- Only include this section if the source notes show exam-oriented intent
-     (e.g., references to past papers, "常考", "面试", "考试" keywords).
-     Otherwise omit the entire section. -->
 ```
 
 ---
@@ -89,16 +84,113 @@ mechanism for signaling learning dependencies.
 
 ## Code Block Conventions
 
-### Programming Language Code
+### Language Selection Decision Tree
 
-Always specify the language:
+Apply in order. The first matching rule wins:
+
+1. **User-specified language** — highest priority, applies globally to the entire document
+2. **AI / Machine Learning** → Python (de facto standard in academia and industry)
+3. **SQL queries** (DDL / DML / EXPLAIN) → SQL
+4. **Low-level CS** (pointers, memory management, syscalls, hardware interaction, kernel data structures) → C
+5. **Application-layer** (frameworks, business logic, API calls, toolchains, project structure) → TypeScript / JavaScript
+6. **Default fallback** → TypeScript / JavaScript
+
+### C Language Code
+
+Use for low-level CS concepts. Show struct definitions, pointer operations, and
+system-level logic:
 
 ````markdown
-```python
-def dijkstra(graph, start):
-    distances = {node: float('inf') for node in graph}
-    distances[start] = 0
-    # ...
+```c
+#include <stdlib.h>
+#include <stdio.h>
+
+typedef struct Node {
+    int key;
+    struct Node *left;
+    struct Node *right;
+} Node;
+
+Node* create_node(int key) {
+    Node* n = (Node*)malloc(sizeof(Node));
+    n->key = key;
+    n->left = n->right = NULL;
+    return n;
+}
+
+Node* insert(Node* root, int key) {
+    if (root == NULL) return create_node(key);
+    if (key < root->key)
+        root->left = insert(root->left, key);
+    else if (key > root->key)
+        root->right = insert(root->right, key);
+    return root;
+}
+```
+````
+
+### TypeScript / JavaScript Code
+
+Use for application-layer concepts. Prefer TypeScript for type safety and
+clarity; use JavaScript for concise examples:
+
+````markdown
+```typescript
+class LRUCache<K, V> {
+  private capacity: number;
+  private map: Map<K, ListNode<K, V>>;
+  private head: ListNode<K, V>;
+  private tail: ListNode<K, V>;
+
+  constructor(capacity: number) {
+    this.capacity = capacity;
+    this.map = new Map();
+    this.head = new ListNode();
+    this.tail = new ListNode();
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+  }
+
+  get(key: K): V | undefined {
+    const node = this.map.get(key);
+    if (!node) return undefined;
+    this.moveToHead(node);
+    return node.value;
+  }
+
+  put(key: K, value: V): void {
+    let node = this.map.get(key);
+    if (node) {
+      node.value = value;
+      this.moveToHead(node);
+    } else {
+      if (this.map.size >= this.capacity) {
+        const lru = this.tail.prev!;
+        this.removeNode(lru);
+        this.map.delete(lru.key);
+      }
+      node = new ListNode(key, value);
+      this.addToHead(node);
+      this.map.set(key, node);
+    }
+  }
+
+  // ... helper methods (removeNode, addToHead, moveToHead)
+}
+```
+````
+
+### SQL (for Database Topics)
+
+````markdown
+```sql
+SELECT e.name, d.department_name
+FROM employees e
+INNER JOIN departments d ON e.dept_id = d.id
+WHERE e.salary > (
+    SELECT AVG(salary) FROM employees WHERE dept_id = e.dept_id
+)
+ORDER BY e.salary DESC;
 ```
 ````
 

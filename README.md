@@ -55,7 +55,7 @@ The output is saved to the source directory as `[topic-slug]-knowledge-base.md`.
 
 ## Output Document Structure
 
-Generated knowledge bases contain 7 sections:
+Generated knowledge bases contain 6 sections:
 
 1. Metadata header (date + source files only)
 2. Hierarchical table of contents
@@ -63,7 +63,6 @@ Generated knowledge bases contain 7 sections:
 4. Main chapters (Why/How/What structure, code blocks, LaTeX formulas, pseudocode, comparison tables)
 5. CS glossary (English → 中文 → definition)
 6. Cross-reference index
-7. Classic problems & exercises (optional — only if notes show exam orientation)
 
 ## File Structure
 

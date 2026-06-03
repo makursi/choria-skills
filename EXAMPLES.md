@@ -106,9 +106,6 @@ piggybacked into a single segment.
 ## 交叉引用索引
 ```
 
-Note: Section 7 (Classic Problems & Exercises) is NOT generated because the
-source notes show no exam-oriented intent.
-
 ---
 
 ## Example 2: Red-Black Tree Insertion (Data Structures)
@@ -137,7 +134,6 @@ source notes show no exam-oriented intent.
       - LR: 左旋再右旋
       - RL: 右旋再左旋
 
-删除太复杂了不想记
 ```
 
 ### Phase 3 Expansion -- Example Concept (RB-Insert-Fixup)
@@ -323,5 +319,5 @@ LRU 实现困难
 6. **Minimal metadata** -- header has only date and source files. Sections have no
    difficulty/prerequisite/type tags.
 7. **Source-bounded scope** -- expansions fill gaps in existing notes. No new
-   topic branches. Classic problems section only when source notes show exam intent.
+   topic branches.
 8. **Clean academic style** -- no decorative symbols. Just structured knowledge.

@@ -360,11 +360,10 @@ in order:
 4. Main Chapters (Why/How/What structure, code, formulas, tables)
 5. CS Glossary
 6. Cross-Reference Index
-7. Classic Problems & Exercises (optional — only if notes show exam orientation)
 
 ### Step 5.2: Formatting Consistency
 
-- All code blocks: language tag (`` ```python ``, `` ```cpp ``, `` ```pseudocode `` etc.)
+- All code blocks: language tag (`` ```c ``, `` ```typescript ``, `` ```python ``, `` ```sql ``, `` ```pseudocode `` etc.)
 - All inline code: backticks (`O(log n)`, `malloc()`, `SELECT`)
 - Display math: `$$...$$` on its own line
 - Inline math: `$...$`
@@ -383,7 +382,6 @@ Before finalizing, verify ALL of the following:
 - [ ] Code blocks: language tags present, reasonable indentation
 - [ ] Heading hierarchy: no skipped levels (H2 → H3, never H2 → H4)
 - [ ] Concepts follow Why → How → What structure
-- [ ] Section 7 (Classic Problems) is present only if source notes show exam orientation
 - [ ] File naming: `[topic-slug]-knowledge-base.md` in the source directory
 
 ### Step 5.4: Write Output

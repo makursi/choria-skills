@@ -44,7 +44,7 @@ This skill serves **only** Computer Science & Technology topics (algorithms, dat
 ## Key Design Decisions
 
 - **Flexible confirmation gates**: <=8 gaps → 2 prompts (topic + outline); >8 gaps → 3 prompts (topic + priorities + outline). User can say "auto-proceed" to skip all but the final outline.
-- **Output**: 7-section document. Former section 8 (Further Reading) is removed.
+- **Output**: 6-section document.
 - **Golden Circle structure**: Every expanded concept follows Why → How → What order.
 - **Expansion dimensions**: "Apply where applicable" — subfield-specific depth standards are the hard requirements.
 - **No emoji**: Clean academic style throughout.

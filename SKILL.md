@@ -71,14 +71,14 @@ the flexible scheme described above.
 - Present the structure outline for user approval.
 
 ### Phase 5 -- Generate Knowledge Base
-- Assemble the final document following the 7-section output schema.
+- Assemble the final document following the 6-section output schema.
 - Write to `[topic-slug]-knowledge-base.md` in the source directory.
 - Run quality checks before finalizing (glossary completeness, link validity,
   LaTeX correctness, consistent heading hierarchy).
 
 ## Output Document Structure
 
-The generated knowledge base contains 7 sections:
+The generated knowledge base contains 6 sections:
 
 1. **Metadata header** -- date, source files
 2. **Table of Contents** -- numbered hierarchical listing
@@ -87,7 +87,6 @@ The generated knowledge base contains 7 sections:
    complexity tables, protocol comparisons, organized by Why/How/What
 5. **CS Glossary** -- English term to 中文 to definition (alphabetically sorted)
 6. **Cross-Reference Index** -- internal links between related concepts
-7. **Classic Problems & Exercises** -- optional, only if notes show exam orientation
 
 ## Reference Files
 
