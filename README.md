@@ -26,10 +26,8 @@ Non-CS notes are rejected in Phase 1 by domain gating. Math/CS boundary domains 
 ## Installation
 
 ```bash
-ln -s "$(pwd)" "$HOME/.claude/skills/notes-refiner"
+npx skills add makursi/note-refiner
 ```
-
-Restart Claude Code or refresh. No build step or dependencies required.
 
 ## Usage
 

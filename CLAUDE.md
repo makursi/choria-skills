@@ -25,17 +25,7 @@ EXAMPLES.md                   # 3 annotated CS examples (input notes → output 
 - **SKILL.md**: keep under 100 lines. Split anything beyond into `references/*.md`.
 - **Reference linking**: use relative paths like `[guide](references/guide.md)`.
 - **No scripts needed**: this skill is purely instructional — all work is done by the AI following the reference files.
-- **Skill directory must be symlinked** from `C:\Users\29634\.claude\skills\notes-refiner` to this project directory.
-
-## Skill Installation
-
-Skills are loaded from `C:\Users\29634\.claude\skills\`. A symlink is required:
-
-```bash
-ln -s "C:/Users/29634/Desktop/Note-Refiner-SKill" "C:/Users/29634/.claude/skills/notes-refiner"
-```
-
-After symlinking, Claude Code picks up the skill on next launch (or refresh). No build step, no package manager.
+- **Skill is installed via CLI**: `npx skills add makursi/note-refiner`
 
 ## Scope
 
