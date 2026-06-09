@@ -1,5 +1,6 @@
 ---
 name: notes-refiner
+version: 1.0.0
 description: >-
   Transform scattered Computer Science & Technology Markdown notes into a single
   academically-deep, hierarchically-structured knowledge base document with

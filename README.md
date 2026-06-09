@@ -29,6 +29,14 @@ Non-CS notes are rejected in Phase 1 by domain gating. Math/CS boundary domains 
 npx skills add makursi/note-refiner
 ```
 
+## Updating
+
+```bash
+npx skills update note-refiner
+```
+
+Check [CHANGELOG.md](CHANGELOG.md) to see what's new before updating.
+
 ## Usage
 
 1. Prepare your `.md` classroom note files
@@ -53,14 +61,12 @@ The output is saved to the source directory as `[topic-slug]-knowledge-base.md`.
 
 ## Output Document Structure
 
-Generated knowledge bases contain 6 sections:
+Generated knowledge bases contain 4 sections:
 
 1. Metadata header (date + source files only)
 2. Hierarchical table of contents
 3. Mermaid concept relationship diagram
-4. Main chapters (Why/How/What structure, code blocks, LaTeX formulas, pseudocode, comparison tables)
-5. CS glossary (English → 中文 → definition)
-6. Cross-reference index
+4. Main chapters (Why/How/What structure, code blocks, LaTeX formulas, pseudocode, comparison tables, glossary)
 
 ## File Structure
 
@@ -69,6 +75,7 @@ notes-refiner/
 ├── SKILL.md                    # Skill entry point (<=100 lines)
 ├── EXAMPLES.md                 # CS domain usage examples
 ├── CLAUDE.md                   # Claude Code collaboration guide
+├── CHANGELOG.md                 # Version history
 ├── README.md                   # This file
 └── references/
     ├── workflow.md             # 5-phase detailed workflow instructions
