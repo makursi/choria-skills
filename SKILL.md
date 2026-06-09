@@ -54,10 +54,9 @@ the flexible scheme described above.
 - Present a gap analysis table to the user (if gap count > 8).
 
 ### Phase 3 -- Expand Knowledge (silent)
-- For each prioritized gap, supplement using the Why/How/What structure:
-  - **Why** -- problem motivation, historical context, real-world need
-  - **How** -- derivation, proof sketch, design rationale, mechanism
-  - **What** -- definition, pseudocode, complexity, code examples, comparisons
+- Research all gaps in batch (broad sweep → deep fetch → write), not one at a time.
+- Apply two-tier depth: high/medium priority → full Why/How/What; low priority →
+  concise Why(1 sentence) + What(definition + 1 snippet).
 - Preserve English CS terms with 中文 on first use: "Backpropagation (反向传播)"
 - Expansion dimensions are "apply where applicable" -- not every concept needs
   all dimensions. Subfield-specific depth standards are the hard requirements.
@@ -78,15 +77,13 @@ the flexible scheme described above.
 
 ## Output Document Structure
 
-The generated knowledge base contains 6 sections:
+The generated knowledge base contains 4 sections:
 
 1. **Metadata header** -- date, source files
 2. **Table of Contents** -- numbered hierarchical listing
-3. **Concept Map** -- Mermaid diagram of concept relationships
+3. **Concept Map** -- Mermaid diagram (top-level skeleton, 1-2 layers deep)
 4. **Main Chapters** -- structured content with code blocks, LaTeX, pseudocode,
    complexity tables, protocol comparisons, organized by Why/How/What
-5. **CS Glossary** -- English term to 中文 to definition (alphabetically sorted)
-6. **Cross-Reference Index** -- internal links between related concepts
 
 ## Reference Files
 

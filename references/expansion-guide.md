@@ -128,93 +128,18 @@ concept. Do NOT force all dimensions onto every concept.
 
 ## Subfield-Specific Depth Standards (HARD REQUIREMENTS)
 
-These are the **non-negotiable** requirements per CS subfield. Every concept
-within a subfield MUST meet these standards. The general checklist (above) is
-advisory — these are mandatory.
+Non-negotiable per subfield. General checklist above is advisory; these are mandatory.
 
-### Algorithms & Data Structures
-
-A concept has academic depth when it covers:
-- [ ] Formal definition with mathematical notation
-- [ ] Full pseudocode of all operations (not just the "interesting" one)
-- [ ] Time complexity analysis: best / average / worst / amortized
-- [ ] Space complexity analysis
-- [ ] Correctness proof (at least a sketch with loop invariants)
-- [ ] Comparison with alternative data structures/algorithms
-- [ ] Implementation considerations (cache, concurrency, real-world constants)
-- [ ] At least one concrete example walked through step-by-step
-
-### Operating Systems
-
-A concept has academic depth when it covers:
-- [ ] The problem the OS mechanism solves (why user-space can't do it)
-- [ ] Hardware support required (interrupts, MMU, privileged instructions)
-- [ ] Data structures used inside the kernel
-- [ ] System call interface and usage example
-- [ ] Performance implications (context switch cost, cache pollution)
-- [ ] How major OSes implement it (Linux vs Windows vs macOS vs FreeBSD)
-- [ ] Historical evolution (e.g., from CTSS to CFS to EEVDF in Linux scheduling)
-
-### Computer Networks
-
-A concept has academic depth when it covers:
-- [ ] Where it sits in the OSI/TCP-IP stack
-- [ ] Packet/segment format (header fields explained)
-- [ ] State machine or sequence diagram of the protocol
-- [ ] Error handling and edge cases (timeout, retransmission, duplication)
-- [ ] Security considerations
-- [ ] Relevant RFC(s) cited
-- [ ] Comparison with alternative protocols at the same layer
-
-### Databases
-
-A concept has academic depth when it covers:
-- [ ] Formal definition (relational algebra, normal form, etc.)
-- [ ] SQL examples (DDL + DML + query with EXPLAIN)
-- [ ] Physical storage implications (B+ tree, heap file, WAL)
-- [ ] Performance characteristics (I/O complexity, locking behavior)
-- [ ] How major DBMSs implement it (PostgreSQL, MySQL/InnoDB, SQLite)
-
-### AI / Machine Learning
-
-A concept has academic depth when it covers:
-- [ ] Mathematical formulation (loss function, optimization objective)
-- [ ] Derivation of update rules (gradients)
-- [ ] Bias-variance trade-off analysis
-- [ ] Pseudocode of training and inference
-- [ ] Computational complexity
-- [ ] Key assumptions and when they break
-- [ ] Relationship to other models/algorithms
-- [ ] Key papers that introduced or advanced the concept
-
-### Programming Languages & Compilers
-
-A concept has academic depth when it covers:
-- [ ] Formal grammar/syntax (BNF or similar notation)
-- [ ] Static vs. dynamic semantics
-- [ ] Type system implications
-- [ ] Compilation/runtime behavior (what the compiler/interpreter actually does)
-- [ ] Code examples showing both common and edge-case usage
-- [ ] Comparison with analogous features in other languages
-
-### Distributed Systems
-
-A concept has academic depth when it covers:
-- [ ] Consistency model definition
-- [ ] Failure model assumptions
-- [ ] CAP theorem trade-off analysis
-- [ ] Network partition behavior
-- [ ] Consensus protocol details (if applicable)
-- [ ] Real-world system examples
-
-### Cryptography
-
-A concept has academic depth when it covers:
-- [ ] Security model and assumptions
-- [ ] Attack model and threat analysis
-- [ ] Key size and security parameter justification
-- [ ] Side-channel considerations
-- [ ] Implementation pitfalls and warnings
+| Subfield | Must Cover |
+|----------|-----------|
+| **Algorithms & Data Structures** | Formal definition with math notation; full pseudocode for ALL operations; time (best/avg/worst/amortized) + space complexity; correctness proof sketch with loop invariants; comparison with alternatives; implementation considerations (cache, concurrency); step-by-step example |
+| **Operating Systems** | Problem the OS solves (why user-space can't); hardware support (interrupts, MMU, privileged instructions); kernel data structures; syscall interface + usage; performance implications (context switch cost, cache pollution); Linux vs Windows vs macOS vs FreeBSD implementations; historical evolution |
+| **Computer Networks** | OSI/TCP-IP layer location; packet/segment format with header fields; state machine or sequence diagram; error handling (timeout, retransmission, duplication); security considerations; relevant RFC(s) cited; comparison with alternatives at same layer |
+| **Databases** | Formal definition (relational algebra, normal form); SQL with DDL + DML + EXPLAIN; physical storage (B+ tree, heap file, WAL); performance (I/O complexity, locking); PostgreSQL vs MySQL/InnoDB vs SQLite implementations |
+| **AI / Machine Learning** | Mathematical formulation (loss, objective); gradient derivation; bias-variance trade-off; pseudocode (training + inference); computational complexity; key assumptions and failure modes; relationship to other models; key papers |
+| **PL & Compilers** | Formal grammar/syntax (BNF); static vs dynamic semantics; type system implications; compilation/runtime behavior; code examples (common + edge-case); comparison with analogous features in other languages |
+| **Distributed Systems** | Consistency model; failure model assumptions; CAP trade-off analysis; network partition behavior; consensus protocol details; real-world system examples |
+| **Cryptography** | Security model + assumptions; attack model + threat analysis; key size + security parameter justification; side-channel considerations; implementation pitfalls + warnings |
 
 ---
 

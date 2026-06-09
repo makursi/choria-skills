@@ -192,9 +192,20 @@ NOT generate new topic branches, "you might also want to know" tangents, or
 concepts not mentioned in the original notes. The goal is to fill gaps in what
 the student already has — not to write a textbook chapter on the broader subject.
 
-### Step 3.1: Why → How → What Structure
+### Step 3.1: Depth Tier Decision (APPLY BEFORE EXPANDING)
 
-Every expanded concept must follow this three-section structure in order:
+Phase 2 assigned each gap a priority (High / Medium / Low). Use two expansion tiers:
+
+| Priority | Tier | Expansion Rule |
+|----------|------|----------------|
+| **High / Medium** | Full | Complete Why → How → What; full pseudocode, derivations, comparisons, historical context |
+| **Low** | Light | Why (1 sentence motivation) + What (definition + 1 code/formula snippet if applicable). Skip How derivation, historical background, comparison tables. |
+
+Apply this rule BEFORE the Why → How → What template below.
+
+### Step 3.2: Why → How → What Structure
+
+Every expanded concept (full tier) follows this three-section structure in order:
 
 ```
 ### N.m Concept Name
@@ -209,12 +220,22 @@ Every expanded concept must follow this three-section structure in order:
          code examples, comparison with alternatives.
 ```
 
-Not every concept fills all three equally:
+For light-tier concepts, the structure is:
+
+```
+### N.m Concept Name
+
+**Why** — [1 sentence: what problem it solves]
+
+**What** — Formal definition + 1 code/formula snippet if applicable.
+```
+
+Not every full-tier concept fills all three equally:
 - A protocol concept may have more "How" (state machine) and less code
 - A theorem may have more "How" (proof) and no code examples at all
 - A language feature may have more "What" (code) and briefer "Why"
 
-### Step 3.2: Expansion Dimensions (Apply Where Applicable)
+### Step 3.3: Expansion Dimensions (Apply Where Applicable)
 
 The following dimensions are a general checklist. Apply only those that fit the
 specific concept. The **hard requirements** are the subfield-specific depth
@@ -230,7 +251,7 @@ General expansion prompts:
 - Comparison with related approaches (table format if >2)
 - Cross-references to dependent concepts
 
-### Step 3.3: Bilingual Terminology Rules
+### Step 3.4: Bilingual Terminology Rules
 
 - **First use**: English term with 中文 in parentheses.
   Example: "反向传播 (Backpropagation) 是训练神经网络的核心算法..."
@@ -239,10 +260,18 @@ General expansion prompts:
 - **Glossary entry**: Every English CS term must appear in the final glossary
   with its 中文 equivalent and definition.
 
-### Step 3.4: Research and Citation
+### Step 3.5: Batch Research and Citation (DO NOT SERIALIZE PER-GAP)
 
-Use WebSearch and WebFetch to research concepts when the source notes are
-insufficient. Cite sources using these formats:
+Research ALL gaps in batch, not one at a time:
+
+**Round 1 — Broad sweep**: 1-2 WebSearch queries covering all gap concepts from Phase 2.
+Use broad queries that can cover multiple related concepts at once.
+
+**Round 2 — Deep fetch**: 3-4 WebFetch calls for concepts where Round 1 was insufficient
+(high-priority gaps, or gaps where search snippets were too thin).
+
+**Round 3 — Write**: Compose all expansions in one pass, referencing the collected research.
+Cite sources using these formats:
 
 - **Textbook**: [CLRS, Ch. 12] or [CSAPP, §6.2]
 - **Paper**: [Author (Year), "Title", Venue. DOI]
@@ -253,7 +282,7 @@ insufficient. Cite sources using these formats:
 Never fabricate citations. If a source cannot be found, write:
 `[待补充引用 / Citation TBD]`.
 
-### Step 3.5: Quality Checks per Expansion
+### Step 3.6: Quality Checks per Expansion
 
 For each expanded concept, verify:
 - [ ] Definition is self-contained (no circular references)
@@ -263,7 +292,8 @@ For each expanded concept, verify:
 - [ ] Code example is syntactically plausible (best-effort — flag if untested)
 - [ ] Historical context is factually accurate (cross-check if uncertain)
 - [ ] English terms follow the first-use parenthesis rule
-- [ ] Why → How → What order is maintained
+- [ ] Why → How → What order is maintained (full-tier); light-tier follows Why(1句)+What
+- [ ] **小结 (Summary)** added for high/medium priority concepts only; skipped for low priority
 
 ### Edge Cases — Phase 3
 
@@ -309,16 +339,17 @@ Reorder concepts so that:
 
 ### Step 4.3: Generate Concept Map
 
-Create a Mermaid diagram showing the top-level concept relationships. Choose the
-diagram type based on content:
+Create a Mermaid diagram showing top-level concept relationships only
+(root → major branches, 1-2 layers deep). Do NOT enumerate every concept.
+Choose the diagram type based on content:
 
-| Content Type | Diagram Type | Example |
-|-------------|-------------|---------|
-| Hierarchical knowledge | `mindmap` | Subject → subtopics → concepts |
-| Process/protocol flow | `flowchart TD` or `sequenceDiagram` | TCP handshake, compiler phases |
-| Class/type hierarchy | `classDiagram` | Design patterns, data structures |
-| State machine | `stateDiagram-v2` | Process states, protocol states |
-| System architecture | `flowchart LR` | OS layers, network stack |
+| Content Type | Diagram Type |
+|-------------|-------------|
+| Hierarchical knowledge | `mindmap` |
+| Process/protocol flow | `flowchart TD` or `sequenceDiagram` |
+| Class/type hierarchy | `classDiagram` |
+| State machine | `stateDiagram-v2` |
+| System architecture | `flowchart LR` |
 
 ### Step 4.4: Generate Table of Contents
 
@@ -356,33 +387,22 @@ in order:
 
 1. Metadata header (date + source files only)
 2. Table of Contents
-3. Concept Map (Mermaid)
+3. Concept Map (Mermaid — top-level skeleton only)
 4. Main Chapters (Why/How/What structure, code, formulas, tables)
-5. CS Glossary
-6. Cross-Reference Index
 
 ### Step 5.2: Formatting Consistency
 
-- All code blocks: language tag (`` ```c ``, `` ```typescript ``, `` ```python ``, `` ```sql ``, `` ```pseudocode `` etc.)
-- All inline code: backticks (`O(log n)`, `malloc()`, `SELECT`)
-- Display math: `$$...$$` on its own line
-- Inline math: `$...$`
-- Tables: aligned columns with `|---|`, use bold for headers
-- Terminology: first use = English (中文), subsequent uses = natural flow
+Follow all formatting conventions in [output-schema.md](output-schema.md):
+code block language tags, inline code backticks, LaTeX delimiters, table alignment,
+and terminology rules.
 
 ### Step 5.3: Quality Checklist
 
-Before finalizing, verify ALL of the following:
+Before finalizing, verify these 3 critical checks:
 
-- [ ] Every English CS term in the main chapters appears in the Glossary
-- [ ] All cross-reference links point to valid sections
-- [ ] No orphaned concepts remain (every concept connects to at least one other)
 - [ ] LaTeX formulas: all symbols defined, correct delimiters (`$$` / `$`)
-- [ ] Mermaid diagrams: valid syntax, renders correctly
-- [ ] Code blocks: language tags present, reasonable indentation
-- [ ] Heading hierarchy: no skipped levels (H2 → H3, never H2 → H4)
-- [ ] Concepts follow Why → How → What structure
-- [ ] File naming: `[topic-slug]-knowledge-base.md` in the source directory
+- [ ] Mermaid diagrams: valid syntax, top-level skeleton only
+- [ ] Code blocks: language tags present on every code block
 
 ### Step 5.4: Write Output
 
