@@ -2,6 +2,55 @@
 
 All notable changes to the notes-refiner skill.
 
+## [3.0.0] - 2026-06-11
+
+### Changed (BREAKING)
+
+- **9-element cognitive lens system**: 4-layer framework (资源→抽象→机制→策略) replaced by a
+  5-element causal chain (问题→资源→抽象→机制→策略) with 4 embedded analysis layers
+  (权衡, 关系, 最小示例, 关键要点). This is a cognitive model, not a template — analysis
+  layers are embedded into causal chain sections, not separate headings.
+- **问题 (Problem) element added**: new mandatory first element in the causal chain.
+  Three-state logic: Full (system/algorithm), Minimal (language/tool, 1 sentence), None
+  (pure definition — skip). Operational definition: remove the problem → technology has
+  no reason to exist.
+- **Output section template**: 4 layers → 5 causal chain sections (visible headings) +
+  4 analysis layers (embedded) + optional 验证 (standalone) + mandatory 关键要点 (no heading).
+- **Embedding map**: 权衡 → 策略; 关系-is-a → 抽象, 关系-depends-on → 机制; 最小示例 → 机制.
+- **Depth assessment**: single L1-L4 scale → dual-layer scoring model (Coverage Score 0-5
+  + Depth Bonus 0-5), mapped to L1-L4. Coverage scored per causal chain element; Depth
+  Bonus scored per analysis layer.
+- **Gap taxonomy**: 6 types → 8 types. Added Type 7 (问题缺口 — Problem Gap) and Type 8
+  (权衡缺口 — Trade-off Gap).
+- **Phase 2.4 relationship mapping**: 4 edge types → 6 edge types. Added trade-offs-with
+  and solves.
+- **Phase 2.6 gap analysis table**: added Gap Type column.
+- **Phase 3.6 quality checks**: 9 → 15 items, covering all new elements and embedding rules.
+- **Subfield depth standards**: rewritten with 问题 layer requirements and 权衡 requirements
+  for all 8 subfields.
+- **EXAMPLES.md**: all 3 examples rewritten with new framework (TCP handshake, red-black
+  tree insertion, OS memory management).
+
+### Added
+
+- 9-element cognitive lens system with fixed causal chain + variable analysis layers
+- 问题 (Problem) three-state logic (Full / Minimal / None)
+- 权衡 (Trade-offs) as explicit analysis layer embedded in 策略
+- 关系 (Relationships) as structured outgoing-edge lists embedded in 抽象 and 机制
+- 最小示例 (Minimal Example) as concrete instance walkthrough embedded in 机制
+- 关键要点 (Key Takeaways) as mandatory 1-3 sentence summary, no heading, at end of
+  every concept
+- Dual-layer depth scoring model (Coverage Score + Depth Bonus → L-level)
+- Gap types 7 (Problem Gap) and 8 (Trade-off Gap)
+- trade-offs-with and solves edge types in Phase 2.4 relationship mapping
+- Concept type weighting guide with 9-element columns
+- Subfield-Specific Expansion Quick Reference with 9-Element Watch column
+
+### Removed
+
+- 小结 (Summary) heading — replaced by unheaded 关键要点
+- "Four layers" terminology throughout all reference files
+
 ## [2.0.0] - 2026-06-11
 
 ### Changed (BREAKING)

@@ -6,7 +6,7 @@ A Claude Code skill that transforms scattered **Computer Science & Technology** 
 
 - **Knowledge Expansion**: Automatically identifies knowledge gaps (unexplained terms, missing derivations, assumed background) and fills them to academic-level completeness
 - **Knowledge Structuring**: Organizes fragmented concepts into a hierarchical framework with prerequisite-ordered chapters and Mermaid concept relationship diagrams
-- **Four-Layer Framework (资源 → 抽象 → 机制 → 策略)**: Every expanded concept follows resource constraints → formal model → mechanism → strategy order for logical comprehension. Code and pseudocode are optional verification aids, not the knowledge body.
+- **9-Element Cognitive Lens System**: Every expanded concept follows a fixed 5-element causal chain (问题 → 资源 → 抽象 → 机制 → 策略), with 4 analysis layers (权衡, 关系, 最小示例, 关键要点) embedded into the causal chain sections. 验证 is an optional standalone verification subsection. This is a cognitive model for reconstructing underlying mental models, not a rigid template — the goal is to reorganize knowledge by conceptual structure, not lecture order.
 - **Bilingual CS Terminology**: English CS terms preserved with Chinese annotations on first use; code and formulas remain English-only
 
 ## Domain Scope
@@ -47,7 +47,7 @@ Check [CHANGELOG.md](CHANGELOG.md) to see what's new before updating.
 |-------|------|--------|
 | 1 | Ingest & Parse | Concept inventory, domain verification |
 | 2 | Analyze & Identify Gaps | Gap analysis table (terminology audit + depth assessment) |
-| 3 | Expand Knowledge | Academic-level expansions in 资源 → 抽象 → 机制 → 策略 format (silent) |
+| 3 | Expand Knowledge | Academic-level expansions in 问题 → 资源 → 抽象 → 机制 → 策略 causal chain with embedded analysis layers (silent) |
 | 4 | Structure Systematically | Hierarchical outline + Mermaid concept map |
 | 5 | Generate Knowledge Base | Complete `.md` knowledge base document |
 
@@ -66,7 +66,7 @@ Generated knowledge bases contain 4 sections:
 1. Metadata header (date + source files only)
 2. Hierarchical table of contents
 3. Mermaid concept relationship diagram
-4. Main chapters (资源/抽象/机制/策略 structure, LaTeX formulas, formal definitions, comparison tables, glossary, optional verification code)
+4. Main chapters (问题/资源/抽象/机制/策略 causal chain with embedded 权衡/关系/最小示例/关键要点, LaTeX formulas, formal definitions, comparison tables, glossary, optional verification code)
 
 ## File Structure
 

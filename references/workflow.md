@@ -107,16 +107,43 @@ Classify every concept from the inventory into one of four categories:
 | **Assumed** | Used as prerequisite — reader is expected to already know it | "显然这需要 O(log n) 的查找" (no justification) |
 | **Orphaned** | Mentioned once with no connection to other concepts | A lone bullet: "- CAP 定理" with no further context |
 
-### Step 2.2: Depth Assessment
+### Step 2.2: Depth Assessment (Dual-Layer Scoring Model)
 
-For each **Defined** concept, assign a depth level:
+For each **Defined** concept, compute a dual-layer score, then map to an L-level.
+
+**Step 1 — Coverage Score (0–5)**: One point for each causal chain element that has
+non-empty content in the source notes:
+
+| Element | Scoring |
+|---------|---------|
+| 问题 (Problem) | Present and non-empty = 1 |
+| 资源 (Resource) | Present and non-empty = 1 |
+| 抽象 (Abstraction) | Present and non-empty = 1 |
+| 机制 (Mechanism) | Present and non-empty = 1 |
+| 策略 (Strategy) | Present and non-empty = 1 |
+
+Coverage = sum (range: 0–5).
+
+**Step 2 — Depth Bonus**: Count analysis layers with meaningful content in source:
+
+| Analysis Layer | Scoring |
+|---------------|---------|
+| 权衡 (Trade-offs) | ≥2 alternatives compared on measurable dimensions = +1 |
+| 关系 (Relationships) | At least 1 outgoing edge described = +1 |
+| 最小示例 (Minimal Example) | Concrete instance/walkthrough present = +1 |
+| 关键要点 (Key Takeaways) | Summarizing takeaway present = +1 |
+| 验证 (Verification) | Code/pseudocode present = +1 |
+
+Depth Bonus = sum (range: 0–5).
+
+**Step 3 — Map to L-Level**:
 
 | Level | Criteria | Expansion Needed |
 |-------|----------|-----------------|
-| **L1** | Definition only, one sentence | Heavy — add derivation, examples, context |
-| **L2** | Definition + brief explanation, no examples | Significant — add examples, derivations, comparisons |
-| **L3** | Definition + explanation + 1 example | Light — add depth, edge cases, historical context |
-| **L4** | Full treatment: definition, derivation, examples, comparisons, historical context | Minimal — minor refinements only |
+| **L1** | Coverage 0–1 | Heavy — build causal chain from scratch; add analysis layers |
+| **L2** | Coverage 2–3 | Significant — fill missing causal chain elements; add analysis layers |
+| **L3** | Coverage 4–5 AND Depth Bonus ≥ 1 | Light — add depth to weak elements, edge cases, historical context |
+| **L4** | Coverage 5 AND Depth Bonus ≥ 3, OR coverage 5 with 机制+策略 complete closed loop | Minimal — minor refinements only |
 
 ### Step 2.3: CS-Specific Gap Detection
 
@@ -126,18 +153,21 @@ Beyond terminology gaps, check for these CS-specific deficiencies:
 - [ ] **Formal specification missing**: Algorithm/protocol lacks preconditions, postconditions, invariants
 - [ ] **Derivation gaps**: Result stated without derivation (e.g., "thus O(n log n)" without showing work)
 - [ ] **Protocol comparison missing**: Protocol described alone without comparison to alternatives (TCP without mentioning UDP, or vice versa)
+- [ ] **Problem statement missing (Type 7)**: Concept described but the original problem/goal it addresses is never stated. Apply removal test.
 - [ ] **Resource constraint missing**: Abstraction/mechanism discussed without mentioning underlying physical/hardware constraints
+- [ ] **Trade-off analysis missing (Type 8)**: Multiple approaches mentioned but not compared on commensurable dimensions; no Pareto frontier logic
 - [ ] **Assumption gaps**: Conclusion relies on unstated assumptions ("assuming a balanced tree...")
 - [ ] **Historical context missing**: Important algorithm or concept with no origin story (who, when, why)
-- [ ] **Trade-off analysis missing**: Design choice presented without alternatives or trade-offs
 
 ### Step 2.4: Relationship Mapping
 
-Build a mental concept graph:
+Build a mental concept graph with 6 edge types:
 - **Depends-on**: X requires understanding Y (record as prerequisite)
 - **Is-a**: X is a type/instance of Y
 - **Contrasts-with**: X and Y solve similar problems differently (TCP vs UDP)
 - **Builds-on**: X extends or generalizes Y (Red-Black Tree builds on BST)
+- **Trade-offs-with**: X and Y compete on shared goals with conflicting dimension preferences (FIFO ↔ LRU: simplicity vs hit rate). Feeds the 权衡 analysis layer.
+- **Solves**: concept X directly addresses problem Y. Feeds the 问题 causal chain element — anchors each concept's problem statement.
 
 Flag any concept that:
 - Depends on a concept not present in any source (missing prerequisite)
@@ -164,10 +194,11 @@ Priority = Criticality × 2 + Depth deficit + User emphasis
 
 When showing the table:
 ```
-| # | Concept | Status | Depth | Priority | Suggested Expansion |
-|---|---------|--------|-------|----------|---------------------|
-| 1 | Dijkstra | Mentioned | L1 | High | Add formal specification (preconditions, invariants), O((V+E)log V) derivation, comparison with Bellman-Ford |
-| 2 | ... | ... | ... | ... | ... |
+| # | Concept | Status | Depth | Gap Type | Priority | Suggested Expansion |
+|---|---------|--------|-------|----------|----------|---------------------|
+| 1 | Dijkstra | Mentioned | L1 | 形式化, 问题 | High | Add formal specification (preconditions, invariants), O((V+E)log V) derivation, comparison with Bellman-Ford |
+| 2 | LRU vs FIFO | Defined | L2 | 权衡 | Medium | Multi-dimensional comparison table (hit rate, implementation complexity, Belady's anomaly) |
+| 3 | ... | ... | ... | ... | ... | ... |
 ```
 Ask: "请确认以上缺口分析。是否需要调整优先级或跳过某些概念的扩展？"
 
@@ -198,36 +229,46 @@ Phase 2 assigned each gap a priority (High / Medium / Low). Use two expansion ti
 
 | Priority | Tier | Expansion Rule |
 |----------|------|----------------|
-| **High / Medium** | Full | Complete 资源 → 抽象 → 机制 → 策略; full derivations, formal specifications, comparisons, historical context. Optional verification code if it materially deepens understanding. |
-| **Low** | Light | 抽象 (formal definition + 1-2 mathematical properties) + 策略 (1 sentence: when to use). Skip 资源 detailed analysis, 机制 derivations, historical background, comparison tables, and verification code. |
+| **High / Medium** | Full | Complete 5-element causal chain: 问题 → 资源 → 抽象 → 机制 → 策略. All analysis layers (权衡, 关系, 最小示例, 关键要点) embedded. Full derivations, formal specifications, comparisons, historical context. Optional 验证 if it materially deepens understanding. |
+| **Low** | Light | 抽象 (formal definition + 1-2 mathematical properties) + 策略 (1 sentence: what scenario uses which approach). 关键要点 (1 sentence). Skip 问题, 资源, 机制 derivations, historical background, comparison tables, 验证, and remaining analysis layers. |
 
-Apply this rule BEFORE the 资源 → 抽象 → 机制 → 策略 template below.
+Apply this rule BEFORE the 5-element causal chain template below.
 
-### Step 3.2: 资源 → 抽象 → 机制 → 策略 Structure
+### Step 3.2: 5-Element Causal Chain Structure
 
-Every expanded concept (full tier) follows this four-section structure in order:
+Every expanded concept (full tier) follows this 5-section structure in fixed order:
 
 ```
 ### N.m Concept Name
 
-**资源 (Resource)** — 底层物理约束和硬件基础是什么？
-  什么资源限制催生了这个抽象？容量、速度、成本的边界在哪？
+**问题 (Problem)** — 该概念要达成的系统/人类目标。
+  操作定义：移除该问题 → 该技术没有存在的理由。
+  三态：Full（系统/算法级）/ Minimal（语言/工具级，一句）/ None（纯定义级，跳过此节）。
 
-**抽象 (Abstraction)** — 在资源之上建立了什么模型？
+**资源 (Resource)** — 不可改变的物理/硬件/现实约束。
+  操作定义：移除该约束 → 世界物理性质改变。
+
+**抽象 (Abstraction)** — 在资源和问题之上建立的模型。
   形式化定义、数学性质、不变量、前置/后置条件。
+  [融入: 关系 — is-a 类型层级, contrasts-with 结构对比]
 
-**机制 (Mechanism)** — 抽象如何被实现？
+**机制 (Mechanism)** — 抽象如何被实现。
   推导步骤、状态转移、协议交互——用 LaTeX 数学推导和状态图描述。
   不依赖伪代码作为主要描述工具。
+  [融入: 关系 — depends-on / builds-on 依赖链]
+  [融入: 最小示例 — 具体实例的逐步推演：具体数值、逐步 trace。展示概念在真实数据上的运作，不是抽象描述]
 
-**策略 (Strategy)** — 有哪些可选方案？如何权衡？
-  真实系统中谁采用了什么方案？为什么？理论假设在实践中的偏差？
+**策略 (Strategy)** — 真实系统实际采用的方案。
+  谁采用了什么方案，为什么。
+  [融入: 权衡 — 多维度对比（≥2 可量化维度），帕累托前沿，为何不存在同时最优的方案，真实系统选择了哪个点]
 
 **验证 (Verification)** *(可选)* — 极简代码/伪代码，仅验证对原理的理解。
-  非知识主体。不含错误处理、边界检查、生产代码结构。
+  非知识主体。不含错误处理、边界检查、生产代码结构。必须带语言标签。
+
+*[1-3 句关键要点，无标题，每个概念强制出现在末尾]*
 ```
 
-For light-tier concepts, the structure is:
+For light-tier concepts:
 
 ```
 ### N.m Concept Name
@@ -235,14 +276,18 @@ For light-tier concepts, the structure is:
 **抽象 (Abstraction)** — Formal definition + 1-2 key mathematical properties.
 
 **策略 (Strategy)** — [1 sentence: what scenario uses which approach.]
+
+*[1 sentence key takeaway]*
 ```
 
-Not every full-tier concept fills all four layers equally:
+Not every full-tier concept fills all 5 causal chain sections equally:
 - A protocol concept may have more 机制 (state machine) and 策略 (congestion control variants)
-- A theorem may have more 抽象 (formal statement) and 机制 (proof sketch), no 验证
-- A language feature may have more 抽象 (semantics) and 策略 (alternative designs)
+- A theorem may have more 抽象 (formal statement) and 机制 (proof sketch), no 验证, 最小示例 may be low priority
+- A language feature may have Minimal 问题 (1 sentence), more 抽象 (semantics) and 策略 (alternative designs)
 - 验证 is optional; include only when code/pseudocode materially deepens understanding.
   Light-tier concepts never include 验证.
+- 问题 follows three-state logic: Full / Minimal (1 sentence) / None (pure definition concepts — skip entirely).
+  Only 问题 has three-state; other causal chain elements use two-state (Full / absent-in-light-tier).
 
 ### Step 3.3: Expansion Dimensions (Apply Where Applicable)
 
@@ -250,16 +295,24 @@ The following dimensions are a general checklist. Apply only those that fit the
 specific concept. The **hard requirements** are the subfield-specific depth
 standards defined in the Expansion Guide — those are non-negotiable.
 
+Causal chain prompts (fixed order, visible as headings):
+- **问题**: State the original goal; three-state (Full/Minimal/None); apply removal test
+- **资源**: Identify immutable constraints; apply removal test
+- **抽象**: Formal definition and first principles; mathematical properties, invariants, pre/post-conditions; embed is-a/contrasts-with relationships
+- **机制**: Mathematical derivation (LaTeX, show steps); state transitions; protocol interactions; embed depends-on/builds-on relationships; embed 最小示例 (concrete instance trace)
+- **策略**: What real systems use; embed 权衡 (multi-dimensional comparison, Pareto frontier)
+
+Analysis layer prompts (embedded, not separate headings):
+- **权衡**: ≥2 alternatives compared on quantifiable dimensions; Pareto frontier; why no simultaneously optimal solution; real system positioning
+- **关系**: Outgoing edges only — is-a/contrasts-with → 抽象, depends-on/builds-on → 机制; structured list format
+- **最小示例**: Concrete numbers/instance walkthrough in 机制; show the concept operating step by step
+- **关键要点**: 1-3 sentences at end, mandatory, no heading
+
 General expansion prompts:
-- Definition and first principles
-- Mathematical derivation (LaTeX, show steps)
-- Formal specification — preconditions, postconditions, invariants
 - Time/space complexity with derivation
 - Historical context (who, when, what resource constraint)
-- Comparison with related approaches (table format if >2, organized by four layers)
 - Cross-references to dependent concepts
-- Resource constraint analysis — physical/hardware limits driving the design
-- Theory-practice gap — when theoretical assumptions break down in real systems
+- Theory-practice gap — when theoretical assumptions break down in real systems?
 - Verification code *(optional)* — minimal, in 验证 subsection, not knowledge body
 
 ### Step 3.4: Bilingual Terminology Rules
@@ -302,9 +355,14 @@ For each expanded concept, verify:
 - [ ] **形式化规约自洽**: 前置/后置条件、不变式逻辑完整
 - [ ] Historical context is factually accurate (cross-check if uncertain)
 - [ ] English terms follow the first-use parenthesis rule
-- [ ] **资源→抽象→机制→策略 顺序正确**: 不跳跃层级；资源约束驱动抽象设计，抽象通过机制落地
-- [ ] **小结 (Summary)** added for high/medium priority concepts only; skipped for low priority
-- [ ] **验证代码 (如存在)**: 位于独立的 验证 小节，极简且聚焦核心概念，不包含错误处理/边界检查/生产结构
+- [ ] **问题→资源→抽象→机制→策略 因果链顺序正确**: 不跳跃层级；问题陈述在约束之前，约束驱动抽象设计，抽象通过机制落地，策略在机制之上做选择
+- [ ] **问题通过移除测试**: 移除该问题 → 该概念无存在理由（Full/Minimal/None 三态正确应用）
+- [ ] **资源通过移除测试**: 移除该约束 → 世界物理性质改变
+- [ ] **关系融入正确**: is-a/contrasts-with → 抽象小节内；depends-on/builds-on → 机制小节内；至少 1 条出边
+- [ ] **权衡融入正确**: 策略小节内包含 ≥2 可量化维度的方案对比，帕累托前沿逻辑
+- [ ] **最小示例融入正确**: 机制小节内包含具体数值/实例的逐步推演，非抽象描述
+- [ ] **关键要点**: 1-3 句，无标题，每个概念强制出现在末尾
+- [ ] **验证代码 (如存在)**: 位于独立的 验证 小节，位于 策略 之后、关键要点之前，极简且聚焦核心概念，不包含错误处理/边界检查/生产结构
 
 ### Edge Cases — Phase 3
 
@@ -312,7 +370,7 @@ For each expanded concept, verify:
 |-----------|--------|
 | **Cannot find sufficient information** | Mark section with `[待补充 / To Be Supplemented]` and note what's missing. Do not fabricate. |
 | **Highly mathematical topic** (e.g., PAC learning bounds) | Use `$$` display math for key formulas, `$` inline for symbols. Provide intuitive explanation alongside formal derivation. |
-| **Pure code topic** (e.g., "Python generators") | Focus on: language semantics, underlying implementation (CPython), comparison with other languages, common patterns and pitfalls. |
+| **Pure code topic** (e.g., "Python generators") | Focus on: language semantics, underlying implementation (CPython), comparison with other languages, common patterns and pitfalls. Apply Minimal 问题 (1 sentence). |
 | **System design topic** (e.g., "Load balancing") | Include architecture diagrams (Mermaid or text), trade-off tables, real-world system examples (Nginx, HAProxy, AWS ELB). |
 | **Security/crypto topic** | Include threat models, attack vectors, and "don't roll your own crypto" warnings where appropriate. |
 | **Conflicting sources** | Present both viewpoints with attribution: "来源A认为...而来源B认为...目前学界/业界的主流观点是..." |
@@ -337,7 +395,7 @@ Root (Main CS Topic)
 └── N. Subfield / Major Topic N
 ```
 
-Each concept's content is internally organized as 资源→抽象→机制→策略(+可选验证).
+Each concept's content is internally organized as 问题→资源→抽象→机制→策略(+可选验证→关键要点).
 These are content layers, not sub-headings in the table of contents.
 
 ### Step 4.2: Sequence for Learning
@@ -399,7 +457,7 @@ in order:
 1. Metadata header (date + source files only)
 2. Table of Contents
 3. Concept Map (Mermaid — top-level skeleton only)
-4. Main Chapters (资源→抽象→机制→策略 structure, formulas, tables, optional verification code)
+4. Main Chapters (问题→资源→抽象→机制→策略 structure with embedded analysis layers, formulas, tables, optional verification code)
 
 ### Step 5.2: Formatting Consistency
 

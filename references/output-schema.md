@@ -31,7 +31,7 @@ the generated knowledge base Markdown file.
 
 ## [Chapter content from Phase 4 structure]
 
-<!-- Each chapter: 资源 → 抽象 → 机制 → 策略 → 验证(可选) -->
+<!-- Each chapter: 问题 → 资源 → 抽象 → 机制 → 策略 → 验证(可选) → 关键要点 -->
 
 ---
 ```
@@ -45,36 +45,40 @@ Every content section follows this pattern:
 ```markdown
 ## N. Section Title
 
+### 问题 (Problem)
+该概念要达成的系统/人类目标。操作定义：移除该问题 → 该技术没有存在的理由。
+三态：Full（系统/算法级）、Minimal（语言/工具级，一句）、None（纯定义级，跳过）。
+
 ### 资源 (Resource)
-底层物理约束和硬件基础。什么资源限制催生了这个抽象？容量、速度、成本边界在哪？
+不可改变的物理/硬件/现实约束。操作定义：移除该约束 → 世界物理性质改变。
 
 ### 抽象 (Abstraction)
-在资源之上建立了什么模型？形式化定义、数学性质、不变量、前置/后置条件。
+在资源和问题之上建立的模型。形式化定义、数学性质、不变量、前置/后置条件。
+[融入: 关系 — is-a 类型层级, contrasts-with 结构对比]
 
 ### 机制 (Mechanism)
-抽象如何被实现？推导步骤、状态转移、协议交互——用 LaTeX 数学推导和状态图描述。
+抽象如何被实现。推导步骤、状态转移、协议交互——用 LaTeX 数学推导和状态图描述。
+[融入: 关系 — depends-on / builds-on 依赖链]
+[融入: 最小示例 — 具体实例的逐步推演，具体数值，展示概念在真实数据上的运作]
 
 ### 策略 (Strategy)
-有哪些可选方案？如何权衡？真实系统中谁采用了什么方案？为什么？
-理论假设在实践中的偏差。
+真实系统实际采用的方案。谁采用了什么方案，为什么。
+[融入: 权衡 — 多维度对比（≥2 可量化维度），帕累托前沿，为何不存在同时最优的方案，真实系统选择了哪个点]
 
 ### 验证 (Verification) *(可选)*
-极简代码/伪代码，仅用于验证对上述原理的理解。
-非知识主体。不含错误处理、边界检查、生产代码结构。
+极简代码/伪代码，仅验证对原理的理解。非知识主体。
+不含错误处理、边界检查、生产代码结构。必须带语言标签。
 
-### N.m 小结 (Summary)
-
-[1-3 sentence key takeaways — only for high/medium priority concepts]
+*[1-3 句关键要点，无标题，每个概念强制出现]*
 ```
 
-Sections open directly with 资源. No difficulty badges, prerequisite labels, or type tags.
+Sections open directly with 问题. No difficulty badges, prerequisite labels, or type tags.
 Concept ordering (prerequisites before dependents) signals learning dependencies.
 
-The 验证 (Verification) subsection is optional and appears only when code/pseudocode
-materially deepens understanding. Subfield guidance:
-- **Algorithms & Data Structures, AI/ML, PL & Compilers**: usually include verification
-- **OS, Networks, Databases, Distributed Systems, Cryptography**: include sparingly
-- **Low-priority concepts (Light tier)**: never include verification
+The causal chain sections (问题 → 资源 → 抽象 → 机制 → 策略) are always in this fixed order.
+Analysis layers (权衡, 关系, 最小示例, 关键要点) are NOT separate headings — they are embedded
+into the causal chain sections as shown. 验证 is the only optional standalone subsection.
+关键要点 is mandatory for every concept, appears at the end with no heading.
 
 ---
 
@@ -82,7 +86,7 @@ materially deepens understanding. Subfield guidance:
 
 验证代码是可选辅助材料，非知识主体。使用时遵守：
 
-- **位置**: 放在 `### 验证 (Verification)` 小节，在 资源→抽象→机制→策略 四层之后
+- **位置**: 放在 `### 验证 (Verification)` 小节，在 问题→资源→抽象→机制→策略 五层之后、关键要点之前
 - **规则**: 极简，仅验证核心概念理解。不含错误处理、边界检查、生产代码结构
 - **语言标记**: 所有代码块必须带语言标签 (```python, ```c, ```typescript, ```sql, ```pseudocode)
 - **语言选择**: AI/ML → Python; 底层CS → C; 应用层 → TypeScript; SQL → SQL

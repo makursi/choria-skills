@@ -36,6 +36,6 @@ This skill serves **only** Computer Science & Technology topics (algorithms, dat
 
 - **Flexible confirmation gates**: <=8 gaps → 2 prompts (topic + outline); >8 gaps → 3 prompts (topic + priorities + outline). User can say "auto-proceed" to skip all but the final outline.
 - **Output**: 6-section document.
-- **Four-layer structure**: Every expanded concept follows 资源 (Resource) → 抽象 (Abstraction) → 机制 (Mechanism) → 策略 (Strategy) order.
+- **9-element cognitive lens system**: Every expanded concept follows a 5-element causal chain 问题 (Problem) → 资源 (Resource) → 抽象 (Abstraction) → 机制 (Mechanism) → 策略 (Strategy), with 4 analysis layers (权衡, 关系, 最小示例, 关键要点) embedded into the causal chain sections. 验证 (Verification) is an optional standalone subsection. This is a cognitive lens system, not a rigid template — analysis layers are embedded, not separate headings.
 - **Expansion dimensions**: "Apply where applicable" — subfield-specific depth standards are the hard requirements.
 - **No emoji**: Clean academic style throughout.

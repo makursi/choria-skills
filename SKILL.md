@@ -1,6 +1,6 @@
 ---
 name: notes-refiner
-version: 2.0.0
+version: 3.0.0
 description: >-
   Transform scattered Computer Science & Technology Markdown notes into a single
   academically-deep, hierarchically-structured knowledge base document with
@@ -56,8 +56,9 @@ the flexible scheme described above.
 
 ### Phase 3 -- Expand Knowledge (silent)
 - Research all gaps in batch (broad sweep → deep fetch → write), not one at a time.
-- Apply two-tier depth: high/medium priority → full 资源→抽象→机制→策略; low priority →
-  concise 抽象(definition + 1 formal property) + 策略(1 sentence).
+- Apply two-tier depth: high/medium priority → full 5-element causal chain
+  (问题→资源→抽象→机制→策略) with embedded analysis layers; low priority →
+  concise 抽象(definition + 1 formal property) + 策略(1 sentence) + 关键要点(1 sentence).
 - Preserve English CS terms with 中文 on first use: "Backpropagation (反向传播)"
 - Expansion dimensions are "apply where applicable" -- not every concept needs
   all dimensions. Subfield-specific depth standards are the hard requirements.
@@ -85,9 +86,10 @@ The generated knowledge base contains 4 sections:
 3. **Concept Map** -- Mermaid diagram (top-level skeleton, 1-2 layers deep)
 4. **Main Chapters** -- structured content with LaTeX formulae, formal definitions,
    comparison tables, state diagrams, and optional verification code. Content is
-   organized by 资源 (Resource) → 抽象 (Abstraction) → 机制 (Mechanism) → 策略 (Strategy).
-   Code and pseudocode are optional verification aids, not the knowledge body.
-
+    organized by a 5-element causal chain: 问题 (Problem) → 资源 (Resource) →
+    抽象 (Abstraction) → 机制 (Mechanism) → 策略 (Strategy), with analysis layers
+    (权衡, 关系, 最小示例, 关键要点) embedded into the causal chain sections.
+    Code and pseudocode are optional verification aids, not the knowledge body.
 ## Reference Files
 
 - [Workflow Details](references/workflow.md) -- complete 5-phase instructions,
