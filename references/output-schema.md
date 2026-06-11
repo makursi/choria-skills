@@ -31,7 +31,7 @@ the generated knowledge base Markdown file.
 
 ## [Chapter content from Phase 4 structure]
 
-<!-- Each chapter: Why → How → What -->
+<!-- Each chapter: 资源 → 抽象 → 机制 → 策略 → 验证(可选) -->
 
 ---
 ```
@@ -45,38 +45,47 @@ Every content section follows this pattern:
 ```markdown
 ## N. Section Title
 
-**Why** — motivation, historical context, problem it solves
+### 资源 (Resource)
+底层物理约束和硬件基础。什么资源限制催生了这个抽象？容量、速度、成本边界在哪？
 
-**How** — mechanism, derivation, design rationale, proof sketch
+### 抽象 (Abstraction)
+在资源之上建立了什么模型？形式化定义、数学性质、不变量、前置/后置条件。
 
-**What** — formal definition, pseudocode, complexity, code examples, comparisons
+### 机制 (Mechanism)
+抽象如何被实现？推导步骤、状态转移、协议交互——用 LaTeX 数学推导和状态图描述。
+
+### 策略 (Strategy)
+有哪些可选方案？如何权衡？真实系统中谁采用了什么方案？为什么？
+理论假设在实践中的偏差。
+
+### 验证 (Verification) *(可选)*
+极简代码/伪代码，仅用于验证对上述原理的理解。
+非知识主体。不含错误处理、边界检查、生产代码结构。
 
 ### N.m 小结 (Summary)
 
 [1-3 sentence key takeaways — only for high/medium priority concepts]
 ```
 
-Sections open directly with Why. No difficulty badges, prerequisite labels, or type tags.
+Sections open directly with 资源. No difficulty badges, prerequisite labels, or type tags.
 Concept ordering (prerequisites before dependents) signals learning dependencies.
+
+The 验证 (Verification) subsection is optional and appears only when code/pseudocode
+materially deepens understanding. Subfield guidance:
+- **Algorithms & Data Structures, AI/ML, PL & Compilers**: usually include verification
+- **OS, Networks, Databases, Distributed Systems, Cryptography**: include sparingly
+- **Low-priority concepts (Light tier)**: never include verification
 
 ---
 
-## Code Block Conventions
+## 验证代码约定
 
-### Language Selection Decision Tree
+验证代码是可选辅助材料，非知识主体。使用时遵守：
 
-Apply in order. First match wins:
-
-1. **User-specified language** — highest priority, applies globally
-2. **AI / Machine Learning** → Python
-3. **SQL queries** → SQL
-4. **Low-level CS** (pointers, memory, syscalls, kernel) → C
-5. **Application-layer** (frameworks, APIs, toolchains) → TypeScript
-6. **Default fallback** → TypeScript
-
-All code blocks must carry a language tag (`` ```c ``, `` ```python ``, `` ```typescript ``,
-`` ```sql ``, `` ```pseudocode ``, `` ```bash ``, `` ```text ``).
-Inline code uses backticks (`O(log n)`, `malloc()`, `SELECT`).
+- **位置**: 放在 `### 验证 (Verification)` 小节，在 资源→抽象→机制→策略 四层之后
+- **规则**: 极简，仅验证核心概念理解。不含错误处理、边界检查、生产代码结构
+- **语言标记**: 所有代码块必须带语言标签 (```python, ```c, ```typescript, ```sql, ```pseudocode)
+- **语言选择**: AI/ML → Python; 底层CS → C; 应用层 → TypeScript; SQL → SQL
 
 ---
 

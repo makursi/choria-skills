@@ -36,6 +36,6 @@ This skill serves **only** Computer Science & Technology topics (algorithms, dat
 
 - **Flexible confirmation gates**: <=8 gaps → 2 prompts (topic + outline); >8 gaps → 3 prompts (topic + priorities + outline). User can say "auto-proceed" to skip all but the final outline.
 - **Output**: 6-section document.
-- **Golden Circle structure**: Every expanded concept follows Why → How → What order.
+- **Four-layer structure**: Every expanded concept follows 资源 (Resource) → 抽象 (Abstraction) → 机制 (Mechanism) → 策略 (Strategy) order.
 - **Expansion dimensions**: "Apply where applicable" — subfield-specific depth standards are the hard requirements.
 - **No emoji**: Clean academic style throughout.

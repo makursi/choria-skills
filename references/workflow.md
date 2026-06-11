@@ -90,7 +90,7 @@ Present to user:
 | **Empty .md files** | Skip with note: "跳过空文件: X" |
 | **Non-.md files present** | List them: "以下非 .md 文件已忽略: [list]" |
 | **Images referenced** | Record path and alt text. Do not attempt to read image content. |
-| **Notes with only code blocks** (>80% code) | Flag as "代码为主的笔记 — 将在 Phase 3 补充解释和上下文" |
+| **Notes with only code blocks** (>80% code) | Reject: "代码为主的笔记 — 此 Skill 聚焦理论模型与形式化分析，不适用于以代码为主的笔记。建议使用通用 AI 对话处理。" Phase 1 终止。 |
 
 ---
 
@@ -123,10 +123,10 @@ For each **Defined** concept, assign a depth level:
 Beyond terminology gaps, check for these CS-specific deficiencies:
 
 - [ ] **Complexity analysis missing**: Algorithm mentioned but no time/space complexity
-- [ ] **Pseudocode missing**: Algorithm described in prose but no structured pseudocode
+- [ ] **Formal specification missing**: Algorithm/protocol lacks preconditions, postconditions, invariants
 - [ ] **Derivation gaps**: Result stated without derivation (e.g., "thus O(n log n)" without showing work)
 - [ ] **Protocol comparison missing**: Protocol described alone without comparison to alternatives (TCP without mentioning UDP, or vice versa)
-- [ ] **Code example missing**: Programming concept described without concrete code
+- [ ] **Resource constraint missing**: Abstraction/mechanism discussed without mentioning underlying physical/hardware constraints
 - [ ] **Assumption gaps**: Conclusion relies on unstated assumptions ("assuming a balanced tree...")
 - [ ] **Historical context missing**: Important algorithm or concept with no origin story (who, when, why)
 - [ ] **Trade-off analysis missing**: Design choice presented without alternatives or trade-offs
@@ -166,7 +166,7 @@ When showing the table:
 ```
 | # | Concept | Status | Depth | Priority | Suggested Expansion |
 |---|---------|--------|-------|----------|---------------------|
-| 1 | Dijkstra | Mentioned | L1 | High | Add algorithm steps, pseudocode, O((V+E)log V) derivation, comparison with Bellman-Ford |
+| 1 | Dijkstra | Mentioned | L1 | High | Add formal specification (preconditions, invariants), O((V+E)log V) derivation, comparison with Bellman-Ford |
 | 2 | ... | ... | ... | ... | ... |
 ```
 Ask: "请确认以上缺口分析。是否需要调整优先级或跳过某些概念的扩展？"
@@ -198,26 +198,33 @@ Phase 2 assigned each gap a priority (High / Medium / Low). Use two expansion ti
 
 | Priority | Tier | Expansion Rule |
 |----------|------|----------------|
-| **High / Medium** | Full | Complete Why → How → What; full pseudocode, derivations, comparisons, historical context |
-| **Low** | Light | Why (1 sentence motivation) + What (definition + 1 code/formula snippet if applicable). Skip How derivation, historical background, comparison tables. |
+| **High / Medium** | Full | Complete 资源 → 抽象 → 机制 → 策略; full derivations, formal specifications, comparisons, historical context. Optional verification code if it materially deepens understanding. |
+| **Low** | Light | 抽象 (formal definition + 1-2 mathematical properties) + 策略 (1 sentence: when to use). Skip 资源 detailed analysis, 机制 derivations, historical background, comparison tables, and verification code. |
 
-Apply this rule BEFORE the Why → How → What template below.
+Apply this rule BEFORE the 资源 → 抽象 → 机制 → 策略 template below.
 
-### Step 3.2: Why → How → What Structure
+### Step 3.2: 资源 → 抽象 → 机制 → 策略 Structure
 
-Every expanded concept (full tier) follows this three-section structure in order:
+Every expanded concept (full tier) follows this four-section structure in order:
 
 ```
 ### N.m Concept Name
 
-**Why** — What problem does it solve? Who developed it and when?
-        What real-world need motivated it? Why does it matter?
+**资源 (Resource)** — 底层物理约束和硬件基础是什么？
+  什么资源限制催生了这个抽象？容量、速度、成本的边界在哪？
 
-**How** — What is the mechanism, derivation, or design rationale?
-        How does it work step by step? What is the proof sketch?
+**抽象 (Abstraction)** — 在资源之上建立了什么模型？
+  形式化定义、数学性质、不变量、前置/后置条件。
 
-**What** — Formal definition, pseudocode, complexity analysis,
-         code examples, comparison with alternatives.
+**机制 (Mechanism)** — 抽象如何被实现？
+  推导步骤、状态转移、协议交互——用 LaTeX 数学推导和状态图描述。
+  不依赖伪代码作为主要描述工具。
+
+**策略 (Strategy)** — 有哪些可选方案？如何权衡？
+  真实系统中谁采用了什么方案？为什么？理论假设在实践中的偏差？
+
+**验证 (Verification)** *(可选)* — 极简代码/伪代码，仅验证对原理的理解。
+  非知识主体。不含错误处理、边界检查、生产代码结构。
 ```
 
 For light-tier concepts, the structure is:
@@ -225,15 +232,17 @@ For light-tier concepts, the structure is:
 ```
 ### N.m Concept Name
 
-**Why** — [1 sentence: what problem it solves]
+**抽象 (Abstraction)** — Formal definition + 1-2 key mathematical properties.
 
-**What** — Formal definition + 1 code/formula snippet if applicable.
+**策略 (Strategy)** — [1 sentence: what scenario uses which approach.]
 ```
 
-Not every full-tier concept fills all three equally:
-- A protocol concept may have more "How" (state machine) and less code
-- A theorem may have more "How" (proof) and no code examples at all
-- A language feature may have more "What" (code) and briefer "Why"
+Not every full-tier concept fills all four layers equally:
+- A protocol concept may have more 机制 (state machine) and 策略 (congestion control variants)
+- A theorem may have more 抽象 (formal statement) and 机制 (proof sketch), no 验证
+- A language feature may have more 抽象 (semantics) and 策略 (alternative designs)
+- 验证 is optional; include only when code/pseudocode materially deepens understanding.
+  Light-tier concepts never include 验证.
 
 ### Step 3.3: Expansion Dimensions (Apply Where Applicable)
 
@@ -244,12 +253,14 @@ standards defined in the Expansion Guide — those are non-negotiable.
 General expansion prompts:
 - Definition and first principles
 - Mathematical derivation (LaTeX, show steps)
-- Algorithm pseudocode with line numbers
+- Formal specification — preconditions, postconditions, invariants
 - Time/space complexity with derivation
-- Concrete code example with language tag
-- Historical context (who, when, what problem)
-- Comparison with related approaches (table format if >2)
+- Historical context (who, when, what resource constraint)
+- Comparison with related approaches (table format if >2, organized by four layers)
 - Cross-references to dependent concepts
+- Resource constraint analysis — physical/hardware limits driving the design
+- Theory-practice gap — when theoretical assumptions break down in real systems
+- Verification code *(optional)* — minimal, in 验证 subsection, not knowledge body
 
 ### Step 3.4: Bilingual Terminology Rules
 
@@ -287,13 +298,13 @@ Never fabricate citations. If a source cannot be found, write:
 For each expanded concept, verify:
 - [ ] Definition is self-contained (no circular references)
 - [ ] All symbols in LaTeX formulas are defined
-- [ ] Pseudocode is syntactically clear and consistent
 - [ ] Complexity analysis includes derivation steps, not just final Big-O
-- [ ] Code example is syntactically plausible (best-effort — flag if untested)
+- [ ] **形式化规约自洽**: 前置/后置条件、不变式逻辑完整
 - [ ] Historical context is factually accurate (cross-check if uncertain)
 - [ ] English terms follow the first-use parenthesis rule
-- [ ] Why → How → What order is maintained (full-tier); light-tier follows Why(1句)+What
+- [ ] **资源→抽象→机制→策略 顺序正确**: 不跳跃层级；资源约束驱动抽象设计，抽象通过机制落地
 - [ ] **小结 (Summary)** added for high/medium priority concepts only; skipped for low priority
+- [ ] **验证代码 (如存在)**: 位于独立的 验证 小节，极简且聚焦核心概念，不包含错误处理/边界检查/生产结构
 
 ### Edge Cases — Phase 3
 
@@ -319,15 +330,15 @@ concepts that appear in the source notes — do not add synthetic subtopics.
 Root (Main CS Topic)
 ├── 1. Subfield / Major Topic A
 │   ├── 1.1 Concept X
-│   │   ├── 1.1.1 Why — motivation and background
-│   │   ├── 1.1.2 How — mechanism and derivation
-│   │   └── 1.1.3 What — definition and application
 │   ├── 1.2 Concept Y (prerequisite: 1.1)
 │   └── 1.3 Concept Z (prerequisite: 1.1, 1.2)
 ├── 2. Subfield / Major Topic B
 │   └── ...
 └── N. Subfield / Major Topic N
 ```
+
+Each concept's content is internally organized as 资源→抽象→机制→策略(+可选验证).
+These are content layers, not sub-headings in the table of contents.
 
 ### Step 4.2: Sequence for Learning
 
@@ -388,13 +399,12 @@ in order:
 1. Metadata header (date + source files only)
 2. Table of Contents
 3. Concept Map (Mermaid — top-level skeleton only)
-4. Main Chapters (Why/How/What structure, code, formulas, tables)
+4. Main Chapters (资源→抽象→机制→策略 structure, formulas, tables, optional verification code)
 
 ### Step 5.2: Formatting Consistency
 
 Follow all formatting conventions in [output-schema.md](output-schema.md):
-code block language tags, inline code backticks, LaTeX delimiters, table alignment,
-and terminology rules.
+LaTeX delimiters, table alignment, verification code conventions, and terminology rules.
 
 ### Step 5.3: Quality Checklist
 
@@ -402,7 +412,7 @@ Before finalizing, verify these 3 critical checks:
 
 - [ ] LaTeX formulas: all symbols defined, correct delimiters (`$$` / `$`)
 - [ ] Mermaid diagrams: valid syntax, top-level skeleton only
-- [ ] Code blocks: language tags present on every code block
+- [ ] Verification code (if present): minimal, language-tagged, in 验证 subsection only
 
 ### Step 5.4: Write Output
 
@@ -419,7 +429,7 @@ After writing, summarize for the user:
 - 总章节数: N
 - 扩展概念数: M
 - 术语表条目: K
-- 代码示例: P
+- 对比表格: P
 - 参考引用: Q
 ```
 

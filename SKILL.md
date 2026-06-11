@@ -1,10 +1,10 @@
 ---
 name: notes-refiner
-version: 1.0.0
+version: 2.0.0
 description: >-
   Transform scattered Computer Science & Technology Markdown notes into a single
   academically-deep, hierarchically-structured knowledge base document with
-  Chinese-English bilingual CS terminology, algorithm analysis, code examples,
+  Chinese-English bilingual CS terminology, formal analysis, theoretical models,
   and textbook/paper references. Serves ONLY computer science topics: algorithms,
   data structures, OS, networks, databases, compilers, architecture, AI/ML, PL,
   software engineering, distributed systems, cryptography, and related CS fields.
@@ -50,14 +50,14 @@ the flexible scheme described above.
 - Classify every concept: Defined / Mentioned-but-unexplained / Assumed-background
   / Orphaned.
 - Assess depth level (L1=definition only --> L4=full academic treatment).
-- Identify CS-specific gaps: missing complexity analysis, missing pseudocode,
+- Identify CS-specific gaps: missing complexity analysis, missing formal specification,
   derivation gaps, unstated assumptions, missing protocol comparisons.
 - Present a gap analysis table to the user (if gap count > 8).
 
 ### Phase 3 -- Expand Knowledge (silent)
 - Research all gaps in batch (broad sweep → deep fetch → write), not one at a time.
-- Apply two-tier depth: high/medium priority → full Why/How/What; low priority →
-  concise Why(1 sentence) + What(definition + 1 snippet).
+- Apply two-tier depth: high/medium priority → full 资源→抽象→机制→策略; low priority →
+  concise 抽象(definition + 1 formal property) + 策略(1 sentence).
 - Preserve English CS terms with 中文 on first use: "Backpropagation (反向传播)"
 - Expansion dimensions are "apply where applicable" -- not every concept needs
   all dimensions. Subfield-specific depth standards are the hard requirements.
@@ -71,7 +71,7 @@ the flexible scheme described above.
 - Present the structure outline for user approval.
 
 ### Phase 5 -- Generate Knowledge Base
-- Assemble the final document following the 6-section output schema.
+- Assemble the final document following the 4-section output schema.
 - Write to `[topic-slug]-knowledge-base.md` in the source directory.
 - Run quality checks before finalizing (glossary completeness, link validity,
   LaTeX correctness, consistent heading hierarchy).
@@ -83,15 +83,17 @@ The generated knowledge base contains 4 sections:
 1. **Metadata header** -- date, source files
 2. **Table of Contents** -- numbered hierarchical listing
 3. **Concept Map** -- Mermaid diagram (top-level skeleton, 1-2 layers deep)
-4. **Main Chapters** -- structured content with code blocks, LaTeX, pseudocode,
-   complexity tables, protocol comparisons, organized by Why/How/What
+4. **Main Chapters** -- structured content with LaTeX formulae, formal definitions,
+   comparison tables, state diagrams, and optional verification code. Content is
+   organized by 资源 (Resource) → 抽象 (Abstraction) → 机制 (Mechanism) → 策略 (Strategy).
+   Code and pseudocode are optional verification aids, not the knowledge body.
 
 ## Reference Files
 
 - [Workflow Details](references/workflow.md) -- complete 5-phase instructions,
   CS-specific judgment rules, edge case handling
 - [Output Schema](references/output-schema.md) -- exact template, formatting rules,
-  code/LaTeX/Mermaid conventions
+  LaTeX/Mermaid conventions, verification code guidelines
 - [Expansion Guide](references/expansion-guide.md) -- gap taxonomy, academic depth
   standards, citation formats, subfield quick reference
 - [Examples](EXAMPLES.md) -- annotated before/after examples of CS note refinement
