@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working on this skill in the `skills/notes-refiner/` directory of the my-agent-skills repository.
 
 ## Project Overview
 
@@ -11,13 +11,14 @@ This is a Claude Code skill — a domain-specific instruction set loaded by Clau
 Skills use **progressive disclosure**: SKILL.md is the lightweight entry point (<=100 lines) that the agent reads to decide whether to load the skill. Detailed instructions live in `references/` and are read on-demand during execution.
 
 ```
-SKILL.md                      # Entry point: frontmatter (name + version + description) + workflow overview (~95 lines)
-references/
-  workflow.md                 # Phase-by-phase execution guide with checklists
-  output-schema.md            # Exact template for generated knowledge base documents
-  expansion-guide.md          # Gap taxonomy, academic depth standards, citation formats
-EXAMPLES.md                   # 3 annotated CS examples (input notes → output knowledge base)
-CHANGELOG.md                  # Version history — users check this before `npx skills update`
+skills/notes-refiner/
+├── SKILL.md                  # Entry point: frontmatter (name + version + description) + workflow overview (~95 lines)
+├── references/
+│   ├── workflow.md           # Phase-by-phase execution guide with checklists
+│   ├── output-schema.md      # Exact template for generated knowledge base documents
+│   └── expansion-guide.md    # Gap taxonomy, academic depth standards, citation formats
+├── EXAMPLES.md               # 3 annotated CS examples (input notes → output knowledge base)
+└── CHANGELOG.md              # Version history
 ```
 
 ## Conventions
@@ -26,7 +27,7 @@ CHANGELOG.md                  # Version history — users check this before `npx
 - **SKILL.md**: keep under 100 lines. Split anything beyond into `references/*.md`.
 - **Reference linking**: use relative paths like `[guide](references/guide.md)`.
 - **No scripts needed**: this skill is purely instructional — all work is done by the AI following the reference files.
-- **Skill is installed via CLI**: `npx skills add makursi/note-refiner`
+- **Skill is installed via CLI**: `pnpx skills add makursi/my-agent-skills --skill='*'`
 
 ## Scope
 
