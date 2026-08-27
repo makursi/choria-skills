@@ -58,6 +58,24 @@ metadata:
 3. 按上述 SKILL.md 规范生成，`metadata.source` 记录官方文档 URL 与生成日期。
 4. 不建 submodule、不记录 git SHA——来源信息只存在于 frontmatter。
 
+## 工作流三：从独立技能仓库导入
+
+适用于「技能在独立 GitHub 仓库中开发成熟，收编进本集合仓库」的场景（收编模式：本仓库副本为真源，独立仓视为开发草稿）。
+
+1. 用 `gh`（WSL 版）查看源仓库文件清单，确认技能结构与文件职责：
+   ```
+   gh repo view {owner}/{repo} --json name,description
+   gh api repos/{owner}/{repo}/contents --jq '.[].path'
+   ```
+2. 只搬运行时文件到 `skills/{name}/`：
+   - 必须：`SKILL.md`、`references/*.md`
+   - 可选：`CONTEXT.md`（技能词汇表，便于未来维护）
+   - 不搬：`package.json`、`README.md`、`.gitignore`、`docs/adr/` 等开发脚手架。
+3. 规范化 frontmatter：
+   - 保留 `name`、`description`、作者有意设置的字段（如 `disable-model-invocation`）。
+   - 补充本仓库 `metadata`：`author`、`version`（日期格式 `YYYY.M.D`）、`source`（源仓库 URL）。
+4. 在 README.md 技能表登记，必要时在根 CONTEXT.md 沉淀新词条。
+
 ## 维护约定
 
 - **不引入**：scripts/、meta.ts、submodule、GENERATION.md 等重型机制。

@@ -13,6 +13,7 @@ pnpx skills add makursi/my-agent-skills --skill='*'
 | Skill | Description |
 |-------|-------------|
 | [notes-refiner](skills/notes-refiner) | Refine scattered Computer Science notes into structured, academically-deep knowledge base documents |
+| [document-style](skills/document-style) | Proofread Chinese technical documentation against a writing style guide: audit / revise / update |
 
 ## Repository Structure
 
