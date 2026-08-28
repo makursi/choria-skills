@@ -1,6 +1,5 @@
 ---
 name: notes-refiner
-version: 3.0.0
 description: >-
   Transform scattered Computer Science & Technology Markdown notes into a single
   academically-deep, hierarchically-structured knowledge base document with
@@ -12,24 +11,26 @@ description: >-
   base from .md notes, create structured study materials from classroom notes, or
   mentions 笔记精炼, 笔记整理, knowledge expansion, note refinement, knowledge
   structuring, CS study notes, 知识体系化, 知识扩展, or 课堂笔记整理.
+metadata:
+  author: makursi
+  version: "2026.8.28"
+  source: https://github.com/makursi/skill-notes-refiner
 ---
 
 # Notes Refiner (笔记精炼师)
 
 Transform scattered CS classroom notes into an academically-deep, hierarchically
-structured knowledge base. **CS domain only** -- if notes are not Computer Science
-related, inform the user and stop.
+structured knowledge base. **CS domain only** -- non-CS notes are rejected and stopped.
 
 ## Quick Start
 
 1. Tell the skill where your `.md` notes live (directory path or specific files).
 2. Provide the CS topic if not obvious from the notes (e.g., "操作系统内存管理").
-3. The skill proceeds through 5 phases. Confirmation prompts are minimized:
+3. The skill proceeds through 5 phases (Phase 3 expansion runs silently in the
+   background). Confirmation prompts are minimized:
    - If gaps > 8: confirms topic, gap priorities, and final outline (3 prompts).
    - If gaps <= 8: confirms topic and final outline only (2 prompts).
-   - Say "auto-proceed" to skip all intermediate prompts -- only the final
-     structure outline is shown for approval.
-   Phase 3 (expansion) always runs silently in the background.
+   - Say "auto-proceed" to skip all prompts except the final outline approval.
 
 ## Workflow Overview
 
@@ -42,13 +43,11 @@ the flexible scheme described above.
   this skill only serves CS topics and stop. If content lies in a math/CS
   boundary domain (graph theory, information theory, probability, etc.), inform
   the user of the CS-centric expansion approach and confirm before proceeding.
-- Extract headings, CS terminology, code blocks, formulas, and build a flat
-  concept inventory.
+- Extract headings, CS terminology, code blocks, formulas into a flat concept inventory.
 - Ask for topic confirmation if ambiguous.
 
 ### Phase 2 -- Analyze & Identify Gaps
-- Classify every concept: Defined / Mentioned-but-unexplained / Assumed-background
-  / Orphaned.
+- Classify every concept: Defined / Mentioned-but-unexplained / Assumed-background / Orphaned.
 - Assess depth level (L1=definition only --> L4=full academic treatment).
 - Identify CS-specific gaps: missing complexity analysis, missing formal specification,
   derivation gaps, unstated assumptions, missing protocol comparisons.
@@ -60,20 +59,19 @@ the flexible scheme described above.
   (问题→资源→抽象→机制→策略) with embedded analysis layers; low priority →
   concise 抽象(definition + 1 formal property) + 策略(1 sentence) + 关键要点(1 sentence).
 - Preserve English CS terms with 中文 on first use: "Backpropagation (反向传播)"
-- Expansion dimensions are "apply where applicable" -- not every concept needs
-  all dimensions. Subfield-specific depth standards are the hard requirements.
+- Expansion dimensions are "apply where applicable"; subfield-specific depth standards are the hard requirements.
 - Only expand concepts present in the source notes. Do not invent new topic
   branches the user did not mention.
 
 ### Phase 4 -- Structure Systematically
-- Build a hierarchical topic tree using only concepts from the source notes.
-- Sequence for learning: prerequisites before dependents.
+- Build a hierarchical topic tree using only concepts from the source notes,
+  sequenced for learning: prerequisites before dependents.
 - Generate a Mermaid concept map (flowchart / classDiagram / stateDiagram).
 - Present the structure outline for user approval.
 
 ### Phase 5 -- Generate Knowledge Base
-- Assemble the final document following the 4-section output schema.
-- Write to `[topic-slug]-knowledge-base.md` in the source directory.
+- Assemble the final document following the 4-section output schema; write to
+  `[topic-slug]-knowledge-base.md` in the source directory.
 - Run quality checks before finalizing (glossary completeness, link validity,
   LaTeX correctness, consistent heading hierarchy).
 
@@ -90,12 +88,12 @@ The generated knowledge base contains 4 sections:
     抽象 (Abstraction) → 机制 (Mechanism) → 策略 (Strategy), with analysis layers
     (权衡, 关系, 最小示例, 关键要点) embedded into the causal chain sections.
     Code and pseudocode are optional verification aids, not the knowledge body.
+
 ## Reference Files
 
-- [Workflow Details](references/workflow.md) -- complete 5-phase instructions,
-  CS-specific judgment rules, edge case handling
-- [Output Schema](references/output-schema.md) -- exact template, formatting rules,
-  LaTeX/Mermaid conventions, verification code guidelines
-- [Expansion Guide](references/expansion-guide.md) -- gap taxonomy, academic depth
-  standards, citation formats, subfield quick reference
-- [Examples](EXAMPLES.md) -- annotated before/after examples of CS note refinement
+| Category | Topic | Reference |
+|----------|-------|-----------|
+| Core | Workflow: complete 5-phase instructions, judgment rules, edge cases | [core-workflow](references/core-workflow.md) |
+| Core | Output Schema: exact template, formatting rules, LaTeX/Mermaid conventions | [core-output-schema](references/core-output-schema.md) |
+| Best Practices | Expansion: gap taxonomy, depth standards, citations, subfield reference | [best-practices-expansion](references/best-practices-expansion.md) |
+| Examples | Annotated before/after cases of CS note refinement | [EXAMPLES](EXAMPLES.md) |

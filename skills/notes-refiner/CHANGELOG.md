@@ -2,6 +2,27 @@
 
 All notable changes to the notes-refiner skill.
 
+## [3.0.2] - 2026-08-28
+
+### Changed
+
+- Frontmatter normalized to collection convention: top-level `version` removed;
+  added `metadata` block (author, date-based version `2026.8.28`, source pointing
+  to the independent publish repo). Version scheme switches from semver to `YYYY.M.D`.
+
+### Added
+
+- Independent publish repo [makursi/skill-notes-refiner](https://github.com/makursi/skill-notes-refiner):
+  publish-channel model — the collection repo remains the single source of truth,
+  runtime files are exported one-way for standalone `skills add` installation.
+
+## [3.0.1] - 2026-08-28
+
+### Changed
+
+- Reference files renamed with category prefixes (antfu/skills convention): `workflow.md` → `core-workflow.md`, `output-schema.md` → `core-output-schema.md`, `expansion-guide.md` → `best-practices-expansion.md`
+- SKILL.md reference list converted to a categorized table (Core / Best Practices)
+
 ## [3.0.0] - 2026-06-11
 
 ### Changed (BREAKING)

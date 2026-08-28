@@ -451,7 +451,7 @@ the final document. This is the primary confirmation gate.
 
 ### Step 5.1: Assemble the Document
 
-Follow the exact schema in [output-schema.md](output-schema.md). Build sections
+Follow the exact schema in [core-output-schema.md](core-output-schema.md). Build sections
 in order:
 
 1. Metadata header (date + source files only)
@@ -461,7 +461,7 @@ in order:
 
 ### Step 5.2: Formatting Consistency
 
-Follow all formatting conventions in [output-schema.md](output-schema.md):
+Follow all formatting conventions in [core-output-schema.md](core-output-schema.md):
 LaTeX delimiters, table alignment, verification code conventions, and terminology rules.
 
 ### Step 5.3: Quality Checklist

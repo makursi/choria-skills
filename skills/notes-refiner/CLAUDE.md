@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working on this skill in the `skills/notes-refiner/` directory of the my-agent-skills repository.
+This file provides guidance to Claude Code (claude.ai/code) when working on this skill in the `skills/notes-refiner/` directory of the choria-skills repository.
 
 ## Project Overview
 
@@ -14,9 +14,9 @@ Skills use **progressive disclosure**: SKILL.md is the lightweight entry point (
 skills/notes-refiner/
 ├── SKILL.md                  # Entry point: frontmatter (name + version + description) + workflow overview (~95 lines)
 ├── references/
-│   ├── workflow.md           # Phase-by-phase execution guide with checklists
-│   ├── output-schema.md      # Exact template for generated knowledge base documents
-│   └── expansion-guide.md    # Gap taxonomy, academic depth standards, citation formats
+│   ├── core-workflow.md             # Phase-by-phase execution guide with checklists
+│   ├── core-output-schema.md        # Exact template for generated knowledge base documents
+│   └── best-practices-expansion.md  # Gap taxonomy, academic depth standards, citation formats
 ├── EXAMPLES.md               # 3 annotated CS examples (input notes → output knowledge base)
 └── CHANGELOG.md              # Version history
 ```
@@ -27,7 +27,7 @@ skills/notes-refiner/
 - **SKILL.md**: keep under 100 lines. Split anything beyond into `references/*.md`.
 - **Reference linking**: use relative paths like `[guide](references/guide.md)`.
 - **No scripts needed**: this skill is purely instructional — all work is done by the AI following the reference files.
-- **Skill is installed via CLI**: `pnpx skills add makursi/my-agent-skills --skill='*'`
+- **Skill is installed via CLI**: `pnpx skills add makursi/choria-skills --skill='*'`
 
 ## Scope
 
