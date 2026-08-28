@@ -5,15 +5,21 @@ A personal collection of [Agent Skills](https://agentskills.io/home).
 ## Installation
 
 ```bash
-pnpx skills add makursi/my-agent-skills --skill='*'
+pnpx skills add makursi/choria-skills --skill='*'
+```
+
+Or install a single skill from its publish repo:
+
+```bash
+pnpx skills add makursi/skill-notes-refiner
 ```
 
 ## Skills
 
-| Skill | Description |
-|-------|-------------|
-| [notes-refiner](skills/notes-refiner) | Refine scattered Computer Science notes into structured, academically-deep knowledge base documents |
-| [document-style](skills/document-style) | Proofread Chinese technical documentation against a writing style guide: audit / revise / update |
+| Skill | Description | Publish Repo |
+|-------|-------------|--------------|
+| [notes-refiner](skills/notes-refiner) | Refine scattered Computer Science notes into structured, academically-deep knowledge base documents | [skill-notes-refiner](https://github.com/makursi/skill-notes-refiner) |
+| [document-style](skills/document-style) | Proofread Chinese technical documentation against a writing style guide: audit / revise / update | — |
 
 ## Repository Structure
 
