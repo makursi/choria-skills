@@ -53,9 +53,13 @@ _Avoid_: snake_case, camelCase, PascalCase
 _Avoid_: 上游仓库、外部仓库
 
 **导入 (import)**:
-从技能源仓库挑选运行时文件（`SKILL.md`、`references/*.md`，可选 `CONTEXT.md`）迁入 `skills/{name}/`，规范化 frontmatter 并在 README/根 CONTEXT.md 登记的过程。见 AGENTS.md 工作流三。
-_Avoid_: 安装、同步（安装指 `skills add` 拉取安装，同步指镜像模式的持续更新，均非导入）
+从技能源仓库（经 `vendor/` submodule 挂载）挑选运行时文件（`SKILL.md`、`references/*.md`，可选 `CONTEXT.md`）迁入 `skills/{name}/`，写 `SYNC.md` 记录 git SHA，并在 README/根 CONTEXT.md 登记的过程。见 AGENTS.md 工作流三。
+_Avoid_: 安装、同步（安装指 `skills add` 拉取安装；同步指源仓库更新后按 SHA 对比并重新迁入的动作，是导入的例行重复）
 
-**收编模式 (adoption model)**:
-本集合仓库副本为真源、独立源仓库视为开发草稿的治理方式；导入后以本仓库副本为准，不再回同步。
-_Avoid_: 镜像模式（独立仓为真源、本仓库定期快照）
+**同步模式 (sync model)**:
+独立源仓库为技能更新的真源；本仓库通过 `vendor/` submodule + `SYNC.md`（源路径 + git SHA）收录副本，技能演进一律在源仓库完成，本仓库不单独修改技能文件，更新时按 SHA 对比后重新迁入。
+_Avoid_: 收编模式（已废止：本仓库副本为真源、独立仓视为开发草稿的旧模型）
+
+**发布仓库 (publish repo)**:
+为集合内成熟技能创建的独立 GitHub 仓库（命名 `skill-{name}`），只承载运行时文件、供 `skills add` 单独安装；由本集合单向导出，集合副本始终为真源。与**技能源仓库**方向相反：发布仓库是收编/成熟之后创建的下游，不是导入来源。见 `docs/adr/0001`。
+_Avoid_: 镜像仓库、上游仓库、源仓库

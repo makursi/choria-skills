@@ -1,0 +1,3 @@
+[submodule "vendor/document-style"]
+	path = vendor/document-style
+	url = https://github.com/makursi/skill-document-style

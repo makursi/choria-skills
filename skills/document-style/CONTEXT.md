@@ -9,7 +9,7 @@
 _Avoid_: 审校、润色（前者语义重叠，后者指超出规范的自由改写，不是本技能职责）
 
 **主规范**:
-唯一事实源 `references/rules.md` 中的全部规则。六个模块，规则 ID 前缀 T/X/P/N/M/S。
+唯一事实源 `references/core-rules.md` 中的全部规则。六个模块，规则 ID 前缀 T/X/P/N/M/S。
 _Avoid_: 规则集、检查清单（与主规范同义重复）
 
 **违规**:
@@ -37,7 +37,7 @@ _Avoid_: 重写（暗示内容重写，超出规范修正范围）
 _Avoid_: 编辑、覆盖（不精确）
 
 **溯源注记**:
-`references/provenance.md`：主规范之外的外部指南状态与冲突裁决背景，不参与判定。
+`references/background-provenance.md`：主规范之外的外部指南状态与冲突裁决背景，不参与判定。
 _Avoid_: 参考资料、背景文件
 
 ## Relationships
